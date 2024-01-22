@@ -1,13 +1,15 @@
 import { Pie } from "react-chartjs-2";
 import { getRandomColor } from "@/utils";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
-// type ChartProps = {
-//   xData: Array<object>;
-//   yData: Array<object>;
-//   yLabel: string;
-// };
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-const Chart = () => {
+type ChartProps = {
+  maxHeight: number | string;
+  maxWidth: number | string;
+};
+
+const Chart = ({ maxHeight = "100%", maxWidth = "100%" }: ChartProps) => {
   const categories = ["Utilties", "Entertainment", "Food", "Medical Bills"];
   const colors = Array.from({ length: categories.length }, getRandomColor);
   const data = {
@@ -49,7 +51,11 @@ const Chart = () => {
     ],
   };
 
-  return <Pie data={data} style={{ maxWidth: "45%" }} />;
+  return (
+    <div style={{ maxWidth, maxHeight }}>
+      <Pie data={data} />;
+    </div>
+  );
 };
 
 export default Chart;

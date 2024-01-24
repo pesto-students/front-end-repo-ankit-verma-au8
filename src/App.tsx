@@ -3,7 +3,7 @@ import Chart from "@/components/Chart";
 function App() {
   return (
     <>
-      DEV
+      PROD
       <Chart maxHeight="30%" maxWidth="30%" />
     </>
   );

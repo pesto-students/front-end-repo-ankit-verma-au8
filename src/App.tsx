@@ -1,10 +1,11 @@
-import Chart from "@/components/Chart";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import routes from "@/routes/routesConfig";
+const router = createBrowserRouter(routes);
 
 function App() {
   return (
     <>
-      DEV
-      <Chart maxHeight="30%" maxWidth="30%" />
+      <RouterProvider router={router} />
     </>
   );
 }

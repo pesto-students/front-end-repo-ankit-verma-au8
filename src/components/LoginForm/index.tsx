@@ -1,5 +1,6 @@
 import { Stack, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { useStore } from "react-redux";
 
 type FormValues = {
   phoneNumber: string;
@@ -17,6 +18,12 @@ const LoginForm = () => {
       password: "",
     },
   });
+
+  const state = useStore();
+
+  const showState = (): void => {
+    console.log("state", state.getState());
+  };
 
   const onSubmit = (e: FormValues) => console.log(e);
 
@@ -57,7 +64,7 @@ const LoginForm = () => {
             error={!!errors.password}
             helperText={errors?.password?.message ?? " "}
           />
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" onClick={showState}>
             Login
           </Button>
         </Stack>

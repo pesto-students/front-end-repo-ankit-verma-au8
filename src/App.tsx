@@ -1,11 +1,15 @@
-import Chart from "@/components/Chart";
+import LoginForm from "./components/LoginForm";
+import { Provider } from "react-redux";
+import store from "@/store";
 
 function App() {
   return (
-    <>
-      DEV
-      <Chart maxHeight="30%" maxWidth="30%" />
-    </>
+    <Provider store={store}>
+      <>
+        DEV
+        <LoginForm />
+      </>
+    </Provider>
   );
 }
 

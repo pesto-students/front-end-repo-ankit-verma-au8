@@ -1,13 +1,14 @@
 import { Stack, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useStore } from "react-redux";
+import { loginUser } from "@/api";
 
 type FormValues = {
   phoneNumber: string;
   password: string;
 };
 
-const LoginForm = () => {
+const Login = () => {
   const {
     register,
     handleSubmit,
@@ -23,9 +24,13 @@ const LoginForm = () => {
 
   const showState = (): void => {
     console.log("state", state.getState());
+    console.log("URL", import.meta.env.VITE_WHATSPEND_BACKEND_BASE_URL);
   };
 
-  const onSubmit = (e: FormValues) => console.log(e);
+  const onSubmit = (e: FormValues) => {
+    console.log(e);
+    // loginUser;
+  };
 
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
@@ -73,4 +78,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

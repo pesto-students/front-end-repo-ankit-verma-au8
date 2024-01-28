@@ -1,5 +1,7 @@
 import { Stack, TextField, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { signupUser } from "@/api";
+// import  {user}
 
 type FormValues = {
   firstName: string;
@@ -25,7 +27,11 @@ const SignupForm = () => {
     },
   });
 
-  const onSubmit = (e: FormValues) => console.log(e);
+  const onSubmit = (userData: FormValues) => {
+    const { confirmPassword, ...data } = userData;
+    signupUser({ ...data, role: "user" });
+    console.log(userData);
+  };
 
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
@@ -91,8 +97,8 @@ const SignupForm = () => {
             {...register("password", {
               required: "Password is required",
               minLength: {
-                value: 6,
-                message: "Password should be longer than 6 characters",
+                value: 8,
+                message: "Password should be longer than 8 characters",
               },
             })}
             error={!!errors.password}

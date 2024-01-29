@@ -1,36 +1,52 @@
-import { Stack, TextField, Button } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  CircularProgress,
+} from "@mui/material";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useStore } from "react-redux";
-import { loginUser } from "@/api";
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { loginUser, authActions } from "@/store";
 
 type FormValues = {
   phoneNumber: string;
   password: string;
+  staySignedIn: boolean;
 };
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { loading, error, success } = useSelector((state) => state.auth);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {
     register,
     handleSubmit,
+    reset: resetForm,
     formState: { errors },
   } = useForm({
     defaultValues: {
       phoneNumber: "",
       password: "",
+      staySignedIn: false,
     },
   });
 
-  const state = useStore();
-
-  const showState = (): void => {
-    console.log("state", state.getState());
-    console.log("URL", import.meta.env.VITE_WHATSPEND_BACKEND_BASE_URL);
+  const onSubmit = (userData: FormValues) => {
+    dispatch(loginUser({ ...userData, role: "user" }));
   };
 
-  const onSubmit = (e: FormValues) => {
-    console.log(e);
-    // loginUser;
-  };
+  useEffect(() => {
+    resetForm();
+    if (success) {
+      navigate("/");
+      dispatch(authActions.reset());
+    }
+  }, [success]);
 
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
@@ -69,9 +85,20 @@ const Login = () => {
             error={!!errors.password}
             helperText={errors?.password?.message ?? " "}
           />
-          <Button variant="contained" type="submit" onClick={showState}>
-            Login
+          <FormControlLabel
+            control={
+              <Checkbox {...register("staySignedIn")} sx={{ pl: 0, ml: 0 }} />
+            }
+            label="Stay Signed In"
+          />
+          <Button variant="contained" type="submit" disabled={loading}>
+            {!loading ? (
+              "Login"
+            ) : (
+              <CircularProgress color="inherit" size={20} />
+            )}
           </Button>
+          {error && <div>{error}</div>}
         </Stack>
       </form>
     </div>

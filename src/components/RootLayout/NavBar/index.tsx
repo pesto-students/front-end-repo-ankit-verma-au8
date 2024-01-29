@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
+import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import { useSelector } from "react-redux";
+import { isUserLoggedIn } from "@/store";
 
 const NavbarButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.common.light,
@@ -14,6 +13,7 @@ const NavbarButton = styled(IconButton)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const isLoggedIn = useSelector(isUserLoggedIn);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
@@ -27,16 +27,20 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(null);
   };
 
-  const isLoggedIn = () => {
-    return false;
-  };
-
   const menuId = "primary-search-account-menu";
 
   return (
     <Box sx={{ flexGrow: 1, borderBottom: "1px solid black" }}>
       <AppBar position="static" elevation={0} style={{ background: "white" }}>
         <Toolbar>
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Typography variant="heading" component="h3" color="black">
+              {isLoggedIn ? "Logged In" : "Not logged in"}
+            </Typography>
+          </Box>
+
           <Box sx={{ flexGrow: 1 }} />
 
           {/* Header Right Section */}

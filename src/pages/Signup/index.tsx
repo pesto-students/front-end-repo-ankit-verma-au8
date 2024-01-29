@@ -1,7 +1,10 @@
-import { Stack, TextField, Button } from "@mui/material";
+import { Stack, TextField, Button, CircularProgress } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { signupUser } from "@/api";
-// import  {user}
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { createUser, userActions } from "@/store";
+import { useEffect } from "react";
 
 type FormValues = {
   firstName: string;
@@ -12,10 +15,14 @@ type FormValues = {
 };
 
 const SignupForm = () => {
+  const navigate = useNavigate();
+  const { loading, error, success } = useSelector((state) => state.user);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {
     register,
     handleSubmit,
     watch,
+    reset: resetForm,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -29,9 +36,16 @@ const SignupForm = () => {
 
   const onSubmit = (userData: FormValues) => {
     const { confirmPassword, ...data } = userData;
-    signupUser({ ...data, role: "user" });
-    console.log(userData);
+    dispatch(createUser({ ...data, role: "user" }));
   };
+
+  useEffect(() => {
+    resetForm();
+    if (success) {
+      navigate("/login");
+      dispatch(userActions.reset());
+    }
+  }, [success]);
 
   return (
     <div style={{ display: "grid", placeItems: "center" }}>
@@ -122,9 +136,14 @@ const SignupForm = () => {
             error={!!errors.confirmPassword}
             helperText={errors?.confirmPassword?.message ?? " "}
           />
-          <Button variant="contained" type="submit">
-            Sign up
+          <Button variant="contained" type="submit" disabled={loading}>
+            {!loading ? (
+              "Sign up"
+            ) : (
+              <CircularProgress color="inherit" size={20} />
+            )}
           </Button>
+          {error && <div>{error}</div>}
         </Stack>
       </form>
     </div>

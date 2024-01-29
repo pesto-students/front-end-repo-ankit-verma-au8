@@ -1,14 +1,7 @@
 import axiosInstance from "@/api/axiosInstance";
+import { SignupUserDetails } from "@/types";
 
-const USER_ENDPOINT = "/categories";
-
-interface SignupUserDetails {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  password: string;
-  role: string;
-}
+const USER_ENDPOINT = "/user";
 
 export const signupUser = async (userData: SignupUserDetails) => {
   const payload = {

@@ -35,7 +35,8 @@ const login = createAsyncThunk(
         throw err;
       }
 
-      return rejectWithValue(err.response.data.message);
+      let { message, errors } = err.response.data;
+      return rejectWithValue(message ?? errors);
     }
   }
 );

@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn } from "@/store";
 
 const NavbarButton = styled(IconButton)(({ theme }) => ({
@@ -13,6 +14,7 @@ const NavbarButton = styled(IconButton)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const navigate = useNavigate();
   const isLoggedIn = useSelector(isUserLoggedIn);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -21,6 +23,9 @@ export default function PrimarySearchAppBar() {
     event: React.MouseEvent<HTMLElement>
   ): void => {
     setAnchorEl(event.currentTarget);
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
   };
 
   const handleMobileMenuClose = () => {

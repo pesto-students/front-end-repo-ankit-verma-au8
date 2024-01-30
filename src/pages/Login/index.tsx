@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { loginUser, authActions } from "@/store";
+import { loginUser } from "@/store";
 
 type FormValues = {
   phoneNumber: string;
@@ -43,8 +43,7 @@ const Login = () => {
   useEffect(() => {
     resetForm();
     if (success) {
-      navigate("/");
-      dispatch(authActions.reset());
+      navigate("/dashboard");
     }
   }, [success]);
 

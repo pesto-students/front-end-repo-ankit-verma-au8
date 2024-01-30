@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -7,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn } from "@/store";
 
 const NavbarButton = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.common.light,
+  color: theme.palette.common.black,
   "&:hover": {
     color: theme.palette.common.black,
   },
@@ -16,21 +15,19 @@ const NavbarButton = styled(IconButton)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
   const isLoggedIn = useSelector(isUserLoggedIn);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-  const handleProfileMenuOpen = (
-    event: React.MouseEvent<HTMLElement>
-  ): void => {
-    setAnchorEl(event.currentTarget);
+  const handleProfileMenuOpen = (): void => {
+    // setAnchorEl(event.currentTarget);
     if (!isLoggedIn) {
       navigate("/login");
     }
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
+  // const handleMobileMenuClose = () => {
+  //   setMobileMoreAnchorEl(null);
+  // };
 
   const menuId = "primary-search-account-menu";
 
@@ -41,7 +38,7 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Typography variant="heading" component="h3" color="black">
+            <Typography component="h3" color="black">
               {isLoggedIn ? "Logged In" : "Not logged in"}
             </Typography>
           </Box>
@@ -58,7 +55,7 @@ export default function PrimarySearchAppBar() {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              color="primary.light"
+              color="primary"
               sx={{ mr: 0.5 }}
             >
               {/* <NavbarLogo src={logoSvg} alt="The Tea Lab" sx={{ mx : "auto", }} /> */}

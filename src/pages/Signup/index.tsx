@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { createUser, userActions } from "@/store";
+import { createUser, userActions, RootState } from "@/store";
 import { useEffect } from "react";
 
 type FormValues = {
@@ -16,7 +16,9 @@ type FormValues = {
 
 const SignupForm = () => {
   const navigate = useNavigate();
-  const { loading, error, success } = useSelector((state) => state.user);
+  const { loading, error, success } = useSelector(
+    (state: RootState) => state.user
+  );
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {
     register,

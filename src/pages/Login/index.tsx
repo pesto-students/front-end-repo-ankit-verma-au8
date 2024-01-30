@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { loginUser } from "@/store";
+import { loginUser, RootState } from "@/store";
 
 type FormValues = {
   phoneNumber: string;
@@ -21,7 +21,9 @@ type FormValues = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loading, error, success } = useSelector((state) => state.auth);
+  const { loading, error, success } = useSelector(
+    (state: RootState) => state.auth
+  );
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {
     register,

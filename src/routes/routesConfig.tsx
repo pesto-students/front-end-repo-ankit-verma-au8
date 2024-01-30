@@ -2,6 +2,7 @@ import RootLayout from "@/components/RootLayout";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
+import Dashboard from "@/pages/Dashboard";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
       {
         path: "signup",
         element: <Signup />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
       {
         path: "*",

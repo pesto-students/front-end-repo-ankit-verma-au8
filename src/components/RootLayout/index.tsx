@@ -1,5 +1,4 @@
 import { Container } from "@mui/material";
-// import Navbar from "./Navbar";
 import Navbar from "@/components/RootLayout/NavBar";
 import { Outlet } from "react-router-dom";
 

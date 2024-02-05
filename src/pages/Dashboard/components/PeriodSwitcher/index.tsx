@@ -1,12 +1,12 @@
 import {
   Button,
   ButtonGroup,
-  Select,
   MenuItem,
   styled,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRef, useState } from "react";
 
 interface ILargeScreen {
@@ -15,7 +15,7 @@ interface ILargeScreen {
 
 interface ISmallScreen extends ILargeScreen {
   period: string;
-  handleChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleChange: (event: SelectChangeEvent) => void;
 }
 
 const StyledButton = styled(Button)(({ value }) => ({
@@ -74,7 +74,7 @@ const PeriodSwitcher = () => {
     <MobileComponent
       periodList={periods.current}
       period={period}
-      handleChange={(e) => setPeriod(e)}
+      handleChange={(e: SelectChangeEvent) => setPeriod(e.target.value)}
     />
   ) : (
     <LargeScreenComponent periodList={periods.current} />

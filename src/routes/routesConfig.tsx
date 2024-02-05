@@ -12,7 +12,6 @@ const routes = [
       {
         path: "/",
         element: <Home />,
-        // element: <LoginForm />,
       },
       {
         path: "login",

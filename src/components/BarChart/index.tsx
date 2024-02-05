@@ -22,11 +22,10 @@ ChartJS.register(
 
 const ChartContainer = styled("div")(({ theme }) => ({
   height: "30vh",
-  width: "auto",
-  position: "relative",
-  border: "1px solid red",
+  maxWidth: "99%",
   [`${theme.breakpoints.up("md")}`]: {
     height: "50vh",
+    maxWidth: "100%",
   },
 }));
 
@@ -69,6 +68,10 @@ const BarChart = () => {
         position: "bottom" as const,
         labels: {
           boxWidth: 15,
+        },
+        title: {
+          display: true,
+          padding: 0,
         },
       },
 

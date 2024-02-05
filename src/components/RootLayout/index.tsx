@@ -9,7 +9,13 @@ const RootLayout = () => {
       <Container
         component="main"
         maxWidth={false}
-        style={{ padding: "10px 0px", display: "grid", placeItems: "center" }}
+        style={{
+          padding: "10px 50px",
+          border: "1px solid red",
+          display: "grid",
+          alignItems: "start",
+          height: "100%",
+        }}
       >
         <Outlet />
       </Container>

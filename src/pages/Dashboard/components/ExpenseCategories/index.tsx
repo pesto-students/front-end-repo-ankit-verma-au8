@@ -1,7 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import BarChart from "@/components/BarChart";
-import PeriodSwitcher from "../PeriodSwitcher";
+import PieChart from "@/components/PieChart";
+import MonthSwitcher from "../MonthSwitcher";
+
+interface ICategoriesProps {
+  categories: Array<string> | [];
+  data: Array<number> | [];
+}
 
 const Container = styled(Box)(({ theme }) => ({
   backgroundColor: "bisque",
@@ -17,16 +22,16 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(3),
 }));
 
-const SpendingTrends = () => {
+const ExpenseCategories = ({ categories, data }: ICategoriesProps) => {
   return (
     <Container>
       <HeaderContainer>
-        <Typography display="inline">Spending Trends</Typography>
-        <PeriodSwitcher />
+        <Typography display="inline">Top Categories</Typography>
+        <MonthSwitcher />
       </HeaderContainer>
-      <BarChart />
+      <PieChart categories={categories} chartData={data} />
     </Container>
   );
 };
 
-export default SpendingTrends;
+export default ExpenseCategories;

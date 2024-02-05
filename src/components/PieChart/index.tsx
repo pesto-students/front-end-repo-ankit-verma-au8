@@ -2,27 +2,32 @@ import { Pie } from "react-chartjs-2";
 import { getRandomColor } from "@/utils";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabel from "chartjs-plugin-datalabels";
+import { styled } from "@mui/material/styles";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabel);
 
-type ChartProps = {
-  categories: Array<string>;
-  chartData: Array<number>;
-  maxHeight: number | string;
-  width: number | string;
+type PieChartProps = {
+  categories: Array<string> | [];
+  chartData: Array<number> | [];
 };
 
-const PieChart = ({
-  categories,
-  chartData,
-  maxHeight = "100%",
-  width = "90%",
-}: ChartProps) => {
-  // const categories = ["Utilties", "Entertainment", "Food", "Medical Bills"];
+const ChartContainer = styled("div")(({ theme }) => ({
+  height: "30vh",
+  maxWidth: "99%",
+  display: "flex",
+  justifyContent: "center",
+  border: "1px solid red",
+  [`${theme.breakpoints.up("md")}`]: {
+    height: "50vh",
+    maxWidth: "100%",
+  },
+}));
+
+const PieChart = ({ categories, chartData }: PieChartProps) => {
   const colors = Array.from({ length: categories.length }, getRandomColor);
-  // let customLabels = categories.map(
-  //   (label, index) => `${label}: ${chartData[index]}`
-  // );
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const dataConfig = {
     labels: categories,
     datasets: [
@@ -30,27 +35,26 @@ const PieChart = ({
         label: "Rupees",
         data: chartData,
         backgroundColor: colors,
-        // borderColor: colors,
         borderWidth: 0,
+        hoverOffset: 30,
       },
     ],
   };
 
   const options = {
-    // responsive: true,
-    layout: {
-      // padding: { top: 50 },
-    },
-    radius: 80,
-    // maintainAspectRatio: true,
+    maintainAspectRatio: false,
+    radius: isMobile ? 70 : 150,
     plugins: {
       datalabels: {
         display: true,
         color: "white",
-        formatter: (value, ctx) => {
+        font: {
+          size: isMobile ? 12 : 15,
+        },
+        formatter: (value: any, ctx: any) => {
           const datapoints = ctx.chart.data.datasets[0].data;
           const total = datapoints.reduce(
-            (total, datapoint) => total + datapoint,
+            (total: number, datapoint: number) => total + datapoint,
             0
           );
           const percentage = (value / total) * 100;
@@ -58,39 +62,19 @@ const PieChart = ({
         },
       },
       legend: {
-        position: "right",
+        position: "right" as const,
         labels: {
           boxWidth: 15,
+          padding: 10,
         },
       },
-      // title: {
-      //   display: true,
-      //   text: "Custom Chart Title",
-      //   padding: {
-      //     top: 10,
-      //     bottom: 30,
-      //   },
-      // },
     },
   };
 
   return (
-    // <div
-    //   style={{
-    //     width,
-    //     maxHeight,
-    //     border: "1px solid red",
-    //     display: "flex",
-    //     justifyContent: "center",
-    //   }}
-    // >
-    <Pie
-      data={dataConfig}
-      options={options}
-      maxHeight={"10%"}
-      maxWidth={"100%"}
-    />
-    // {/* </div> */}
+    <ChartContainer>
+      <Pie data={dataConfig} options={options} />
+    </ChartContainer>
   );
 };
 

@@ -19,7 +19,7 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  marginBottom: theme.spacing(3),
+  marginBottom: theme.spacing(1),
 }));
 
 const ExpenseCategories = ({ categories, data }: ICategoriesProps) => {

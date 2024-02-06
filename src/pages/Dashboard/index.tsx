@@ -2,6 +2,7 @@ import { Box, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ExpenseCategories from "./components/ExpenseCategories";
 import SpendingTrends from "./components/SpendingTrends";
+import LatestExpenses from "./components/LatestExpenses";
 
 const GridBox = styled(Box)(({ theme }) => ({
   backgroundColor: "bisque",
@@ -68,7 +69,7 @@ const Dashboard = () => {
 
         {/* Expenses List Box */}
         <Grid item xs={12} sm={6}>
-          <GridBox>Expense List</GridBox>
+          <LatestExpenses />
         </Grid>
       </Grid>
     </>

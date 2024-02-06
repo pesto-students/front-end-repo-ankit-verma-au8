@@ -17,3 +17,14 @@ export const getRandomColor = (): string => {
 export const getMonthYear = (date: Date): string => {
   return date.toLocaleDateString("default", { month: "long", year: "numeric" });
 };
+
+/**
+ * Returns a shortened version of text
+ *
+ * @param {string} text The text to be truncated
+ * @param {number} maxLength The maximum allowed length of the text
+ * @returns {string} The truncated string
+ */
+export const truncateMessage = (text: string, maxLength = 30) => {
+  return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+};

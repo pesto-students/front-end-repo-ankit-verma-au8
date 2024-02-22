@@ -26,7 +26,6 @@ interface IExpenseList {
 const ExpenseList = ({ expenses }: IExpenseList) => {
   const [openItems, setOpenItems] = useState<number[]>([]);
   const handleClick = (idx: number, date: string): void => {
-    console.log("DATE", date);
     setOpenItems((prevOpenItems) =>
       prevOpenItems.includes(idx)
         ? prevOpenItems.filter((id) => id !== idx)

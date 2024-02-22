@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PieChart from "@/components/PieChart";
 import MonthSwitcher from "../MonthSwitcher";
+import useCategoriesData from "@/hooks/dashboard/useCategoriesData";
 
 interface ICategoriesProps {
   categories: Array<string> | [];
@@ -22,14 +23,15 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(1),
 }));
 
-const ExpenseCategories = ({ categories, data }: ICategoriesProps) => {
+const ExpenseCategories = () => {
+  const { data, loading, error, success, fetchData } = useCategoriesData();
   return (
     <Container>
       <HeaderContainer>
         <Typography display="inline">Top Categories</Typography>
         <MonthSwitcher />
       </HeaderContainer>
-      <PieChart categories={categories} chartData={data} />
+      <PieChart categories={data.categories} chartData={data.data} />
     </Container>
   );
 };

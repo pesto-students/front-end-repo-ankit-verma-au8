@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ExpenseList from "../ExpenseList";
+import Card from "@/components/Card";
 import { useRef } from "react";
 
 const Container = styled(Box)(({ theme }) => ({
@@ -74,10 +75,12 @@ const LatestExpenses = () => {
     },
   ]);
   return (
-    <Container>
-      <Typography sx={{ mb: 2 }}>Latest Expenses</Typography>
+    <Card>
+      <Typography variant="h5" display="inline">
+        Latest Expenses
+      </Typography>
       <ExpenseList expenses={expenseList.current} />
-    </Container>
+    </Card>
   );
 };
 

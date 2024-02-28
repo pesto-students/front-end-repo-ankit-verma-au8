@@ -2,9 +2,11 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import BarChart from "@/components/BarChart";
 import PeriodSwitcher from "../PeriodSwitcher";
+import useTrendsData from "@/hooks/dashboard/useTrendsData";
+import Card from "@/components/Card";
 
 const Container = styled(Box)(({ theme }) => ({
-  backgroundColor: "bisque",
+  // backgroundColor: "bisque",
   ...theme.typography.body2,
   padding: `${theme.spacing(2)}}`,
   color: theme.palette.text.secondary,
@@ -18,14 +20,19 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
 }));
 
 const SpendingTrends = () => {
+  const { data, loading, error, success, fetchData } = useTrendsData("period");
+  console.log("IN list COMPONENT", data);
+
   return (
-    <Container>
+    <Card>
       <HeaderContainer>
-        <Typography display="inline">Spending Trends</Typography>
+        <Typography variant="h5" display="inline">
+          Spending Trends
+        </Typography>
         <PeriodSwitcher />
       </HeaderContainer>
-      <BarChart />
-    </Container>
+      <BarChart data={data} />
+    </Card>
   );
 };
 

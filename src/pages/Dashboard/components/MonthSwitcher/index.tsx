@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconButton, Box } from "@mui/material";
+import { IconButton, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { getMonthYear } from "@/utils";
@@ -13,6 +13,7 @@ const Container = styled(Box)(({}) => ({
 
 const DateContainer = styled(Box)(() => ({
   width: "100%",
+  textAlign: "center",
 }));
 
 const MonthSwitcher = () => {
@@ -36,18 +37,25 @@ const MonthSwitcher = () => {
         size="small"
         sx={{
           borderRadius: 1,
-          alignSelf: "flex-start",
         }}
         onClick={handlePrevClick}
       >
         <ChevronLeft fontSize="small" />
       </IconButton>
-      <DateContainer>{getMonthYear(date)}</DateContainer>
+      <Typography
+        variant="body1"
+        display="inline"
+        sx={{
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        {getMonthYear(date)}
+      </Typography>
       <IconButton
         size="small"
         sx={{
           borderRadius: 1,
-          alignSelf: "flex-end",
         }}
         onClick={handleNextClick}
       >

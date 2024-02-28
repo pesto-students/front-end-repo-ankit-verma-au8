@@ -9,7 +9,8 @@ const RootLayout = () => {
       <Container
         component="main"
         maxWidth={false}
-        style={{
+        sx={{
+          backgroundColor: "background.main",
           padding: "10px 50px",
           border: "1px solid red",
           display: "grid",

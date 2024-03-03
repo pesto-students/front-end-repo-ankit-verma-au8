@@ -38,7 +38,7 @@ const SignupForm = () => {
 
   const onSubmit = (userData: FormValues) => {
     const { confirmPassword, ...data } = userData;
-    dispatch(createUser({ ...data, role: "user" }));
+    dispatch(createUser({ ...data }));
   };
 
   useEffect(() => {

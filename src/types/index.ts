@@ -3,7 +3,6 @@ export interface SignupUserDetails {
   lastName: string;
   phoneNumber: string;
   password: string;
-  role: string;
 }
 
 export interface LoginUserDetails {

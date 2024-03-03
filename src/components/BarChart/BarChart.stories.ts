@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import ChartComponent from "./index";
 
 const meta = {
-  title: "Example/Chart",
+  title: "Example/BarChart",
   component: ChartComponent,
   parameters: {
     layout: "centered",
@@ -14,6 +14,4 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Chart: Story = {
-  args: { maxHeight: "100%", maxWidth: "100%" },
-};
+export const Chart: Story = {};

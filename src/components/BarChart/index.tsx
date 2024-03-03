@@ -34,8 +34,8 @@ const BarChart = () => {
     "Utilties",
     "Entertainment",
     "Food",
-    // "Hospital",
-    // "Education",
+    "Hospital",
+    "Education",
   ];
   const DATA_LENGTH = 5;
   const BIN_LENGTH = 5;

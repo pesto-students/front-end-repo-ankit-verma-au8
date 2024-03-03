@@ -11,10 +11,10 @@ const Container = styled(Box)(({}) => ({
   borderRadius: "5px",
 }));
 
-const DateContainer = styled(Box)(() => ({
-  width: "100%",
-  textAlign: "center",
-}));
+// const DateContainer = styled(Box)(() => ({
+//   width: "100%",
+//   textAlign: "center",
+// }));
 
 const MonthSwitcher = () => {
   const [date, setDate] = useState(() => {

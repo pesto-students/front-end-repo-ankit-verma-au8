@@ -25,7 +25,7 @@ interface IExpenseList {
 
 const ExpenseList = ({ expenses }: IExpenseList) => {
   const [openItems, setOpenItems] = useState<number[]>([]);
-  const handleClick = (idx: number, date: string): void => {
+  const handleClick = (idx: number): void => {
     setOpenItems((prevOpenItems) =>
       prevOpenItems.includes(idx)
         ? prevOpenItems.filter((id) => id !== idx)
@@ -37,10 +37,7 @@ const ExpenseList = ({ expenses }: IExpenseList) => {
       {expenses.map(
         ({ category, message, date, expense }: IExpenseItem, idx) => (
           <div key={idx}>
-            <ListItemButton
-              onClick={() => handleClick(idx, date)}
-              sx={{ pl: 0 }}
-            >
+            <ListItemButton onClick={() => handleClick(idx)} sx={{ pl: 0 }}>
               <ListItemAvatar>
                 <Avatar>{category.charAt(0).toUpperCase()}</Avatar>
               </ListItemAvatar>

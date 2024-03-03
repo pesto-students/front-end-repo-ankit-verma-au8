@@ -14,13 +14,6 @@ const GridBox = styled(Box)(({ theme }) => ({
 }));
 
 const Dashboard = () => {
-  const PieChartCategories = [
-    "Utilties",
-    "Entertainment",
-    "Food",
-    "Medical Bills",
-  ];
-  const PieChartData = [1, 2, 3, 5];
   return (
     <>
       <Grid container spacing={5}>
@@ -78,10 +71,7 @@ const Dashboard = () => {
 
             {/* Piechart */}
             <Grid item xs={12}>
-              <ExpenseCategories
-                categories={PieChartCategories}
-                data={PieChartData}
-              />
+              <ExpenseCategories />
             </Grid>
           </Grid>
         </Grid>

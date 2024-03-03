@@ -5,17 +5,10 @@ import MonthSwitcher from "../MonthSwitcher";
 import useCategoriesData from "@/hooks/dashboard/useCategoriesData";
 import Card from "@/components/Card";
 
-interface ICategoriesProps {
-  categories: Array<string> | [];
-  data: Array<number> | [];
-}
-
-const Container = styled(Box)(({ theme }) => ({
-  // backgroundColor: "bisque",
-  ...theme.typography.body2,
-  padding: `${theme.spacing(2)}}`,
-  color: theme.palette.text.secondary,
-}));
+// interface ICategoriesProps {
+//   categories: Array<string> | [];
+//   data: Array<number> | [];
+// }
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -25,7 +18,7 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
 }));
 
 const ExpenseCategories = () => {
-  const { data, loading, error, success, fetchData } = useCategoriesData();
+  const { data } = useCategoriesData();
   return (
     <Card>
       <HeaderContainer>

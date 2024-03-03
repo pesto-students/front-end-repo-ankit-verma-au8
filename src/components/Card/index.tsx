@@ -7,7 +7,7 @@ interface CardProps {
 
 const Card = ({ children, sx, ...rest }: CardProps) => {
   return (
-    <MUICard sx={sx} raised={true}>
+    <MUICard sx={sx} raised={true} {...rest}>
       <CardContent>{children}</CardContent>
     </MUICard>
   );

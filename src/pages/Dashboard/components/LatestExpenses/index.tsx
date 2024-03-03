@@ -1,15 +1,15 @@
-import { Box, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Typography } from "@mui/material";
+// import { styled } from "@mui/material/styles";
 import ExpenseList from "../ExpenseList";
 import Card from "@/components/Card";
 import { useRef } from "react";
 
-const Container = styled(Box)(({ theme }) => ({
-  backgroundColor: "bisque",
-  ...theme.typography.body2,
-  padding: `${theme.spacing(2)}}`,
-  color: theme.palette.text.secondary,
-}));
+// const Container = styled(Box)(({ theme }) => ({
+//   backgroundColor: "bisque",
+//   ...theme.typography.body2,
+//   padding: `${theme.spacing(2)}}`,
+//   color: theme.palette.text.secondary,
+// }));
 
 const LatestExpenses = () => {
   const expenseList = useRef([

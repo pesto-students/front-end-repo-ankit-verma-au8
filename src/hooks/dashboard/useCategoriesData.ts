@@ -3,10 +3,12 @@ import { RootState, fetchCategoriesData } from "@/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 
-interface APIData {
-  categoryName: string;
-  totalExpense: string;
-  categoryId: number;
+interface HookReturnData {
+  data: Accumulator;
+  loading: boolean;
+  error: boolean;
+  success: boolean;
+  fetchData: () => void;
 }
 
 interface Accumulator {
@@ -14,7 +16,7 @@ interface Accumulator {
   data: number[];
 }
 
-const useCategoriesData = () => {
+const useCategoriesData = (): HookReturnData => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const { data, loading, error, success } = useSelector(
@@ -23,12 +25,13 @@ const useCategoriesData = () => {
 
   const accumulatorInitialValue: Accumulator = { categories: [], data: [] };
 
-  const formattedData = data?.reduce((acc: any, curr: any) => {
-    return {
-      categories: [...acc.categories, curr.categoryName],
-      data: [...acc.data, Number(curr.totalExpense)],
-    };
-  }, accumulatorInitialValue);
+  const formattedData: Accumulator =
+    data?.reduce((acc: Accumulator, curr: any) => {
+      return {
+        categories: [...acc.categories, curr.categoryName],
+        data: [...acc.data, Number(curr.totalExpense)],
+      };
+    }, accumulatorInitialValue) || accumulatorInitialValue;
 
   const getCategoriesData = () => {
     dispatch(fetchCategoriesData({ month: 1, year: 2024 }));

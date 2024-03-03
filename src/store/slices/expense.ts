@@ -136,7 +136,7 @@ const expenseSlice = createSlice({
         state.trends.error = false;
         state.trends.success = false;
       })
-      .addCase(fetchTrendsData.fulfilled, (state, action) => {
+      .addCase(fetchTrendsData.fulfilled, (state) => {
         // console.log("TRENDFETCHED", action);
         // state.trends.data = action.payload;
 
@@ -176,7 +176,7 @@ const expenseSlice = createSlice({
         state.list.error = false;
         state.list.success = false;
       })
-      .addCase(fetchListData.fulfilled, (state, action) => {
+      .addCase(fetchListData.fulfilled, (state) => {
         // console.log("LISTFETCHED", action);
         // state.trends.data = action.payload;
 

@@ -3,7 +3,7 @@ import { RootState, fetchTrendsData } from "@/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 
-const useTrendsData = (trend: any) => {
+const useTrendsData = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const { data, loading, error, success } = useSelector(

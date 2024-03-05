@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Drawer as MUIDrawer,
   IconButton,
@@ -8,6 +7,8 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -52,9 +53,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-const Drawer = styled(MUIDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+const Drawer = styled(MUIDrawer)(({ theme, open }) => ({
   width: 240,
   flexShrink: 0,
   whiteSpace: "nowrap",
@@ -70,6 +69,9 @@ const Drawer = styled(MUIDrawer, {
 }));
 
 const SideNav = ({ open, toggleDrawer }: Props) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const pageList = [
     { text: "Overview", icon: <DashboardIcon /> },
     { text: "Expenses", icon: <ExpenseIcon /> },
@@ -77,35 +79,56 @@ const SideNav = ({ open, toggleDrawer }: Props) => {
     { text: "Settings", icon: <SettingsIcon /> },
   ];
 
-  return (
+  const DrawerContent = (
     <>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+      <DrawerHeader>
+        {!isMobile && (
           <IconButton onClick={toggleDrawer}>
             {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {pageList.slice(0, pageList.length - 1).map(({ text, icon }) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <List sx={{ mt: "auto" }}>
-          <ListItem disablePadding>
+        )}
+      </DrawerHeader>
+      <Divider />
+      <List>
+        {pageList.slice(0, pageList.length - 1).map(({ text, icon }) => (
+          <ListItem key={text} disablePadding>
             <ListItemButton>
-              <ListItemIcon>{pageList[pageList.length - 1].icon}</ListItemIcon>
-              <ListItemText primary={pageList[pageList.length - 1].text} />
+              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
-        </List>
-        <Divider />
-      </Drawer>
+        ))}
+      </List>
+      <List sx={{ mt: "auto" }}>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>{pageList[pageList.length - 1].icon}</ListItemIcon>
+            <ListItemText primary={pageList[pageList.length - 1].text} />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <Divider />
+    </>
+  );
+
+  return (
+    <>
+      {isMobile ? (
+        <Drawer
+          variant="temporary"
+          open={open}
+          onClose={toggleDrawer}
+          ModalProps={{
+            keepMounted: true,
+          }}
+        >
+          {DrawerContent}
+        </Drawer>
+      ) : (
+        <Drawer variant="permanent" open={open}>
+          {DrawerContent}
+        </Drawer>
+      )}
     </>
   );
 };

@@ -16,7 +16,7 @@ const RootLayout = () => {
     <div style={{ height: "100%", display: "flex" }}>
       <SideNav open={isSideNavOpen} toggleDrawer={toggleDrawer} />
       <MainSection drawerOpen={isSideNavOpen}>
-        <Navbar />
+        <Navbar drawerOpen={isSideNavOpen} toggleDrawer={toggleDrawer} />
         <Container
           component="main"
           maxWidth={false}

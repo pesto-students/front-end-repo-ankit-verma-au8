@@ -1,9 +1,23 @@
 import { styled } from "@mui/material/styles";
-import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn } from "@/store";
+
+interface Props {
+  drawerOpen: boolean;
+  toggleDrawer: () => void;
+}
 
 const NavbarButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.common.black,
@@ -12,11 +26,11 @@ const NavbarButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+const Navbar = ({ drawerOpen, toggleDrawer }: Props) => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector(isUserLoggedIn);
-  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleProfileMenuOpen = (): void => {
     // setAnchorEl(event.currentTarget);
@@ -35,9 +49,24 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1, borderBottom: "1px solid black" }}>
       <AppBar position="static" elevation={0} style={{ background: "white" }}>
         <Toolbar>
+          {isMobile && (
+            <Box sx={{ display: { xs: "flex" } }}>
+              <IconButton
+                aria-label="open drawer"
+                onClick={toggleDrawer}
+                edge="start"
+                sx={{
+                  mr: 2,
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          )}
+
           <Box sx={{ flexGrow: 1 }} />
 
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "flex" } }}>
             <Typography component="h3" color="black">
               {isLoggedIn ? "Logged In" : "Not logged in"}
             </Typography>
@@ -46,7 +75,7 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
 
           {/* Header Right Section */}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "flex" } }}>
             {/* Profile Icon */}
             <NavbarButton
               size="large"
@@ -67,4 +96,6 @@ export default function PrimarySearchAppBar() {
       </AppBar>
     </Box>
   );
-}
+};
+
+export default Navbar;

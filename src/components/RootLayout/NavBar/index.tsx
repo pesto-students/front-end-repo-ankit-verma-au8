@@ -26,7 +26,7 @@ const NavbarButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const Navbar = ({ drawerOpen, toggleDrawer }: Props) => {
+const Navbar = ({ toggleDrawer }: Props) => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector(isUserLoggedIn);
   const theme = useTheme();

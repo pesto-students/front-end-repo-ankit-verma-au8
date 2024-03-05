@@ -1,11 +1,13 @@
 import { Container } from "@mui/material";
 import Navbar from "@/components/RootLayout/NavBar";
+import SideNav from "../SideNav";
 import { Outlet } from "react-router-dom";
 
 const RootLayout = () => {
   return (
     <div style={{ height: "100%" }}>
       <Navbar />
+      <SideNav />
       <Container
         component="main"
         maxWidth={false}

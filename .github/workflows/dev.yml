@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ["dev"]
 
+env:
+  VITE_BACKEND_BASE_URL: ${{ secrets.VITE_BACKEND_BASE_URL }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -70,5 +73,5 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          BACKEND_BASE_URL: ${{ secrets.BACKEND_BASE_URL }}
+
         timeout-minutes: 1

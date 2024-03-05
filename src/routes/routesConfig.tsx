@@ -8,22 +8,21 @@ import Dashboard from "@/pages/Dashboard";
 const routes = [
   {
     path: "/",
-    element: <RootLayout />,
+    element: <Home />,
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "signup",
+    element: <Signup />,
+  },
+  {
+    element: <ProtectedRoutes />,
     children: [
       {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "signup",
-        element: <Signup />,
-      },
-      {
-        element: <ProtectedRoutes />,
+        element: <RootLayout />,
         children: [
           {
             path: "dashboard",
@@ -36,6 +35,10 @@ const routes = [
         element: <>404</>,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <>404</>,
   },
 ];
 

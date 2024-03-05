@@ -17,6 +17,11 @@ import BudgetIcon from "@mui/icons-material/RequestQuote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 
+interface Props {
+  open: boolean;
+  toggleDrawer: () => void;
+}
+
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -64,8 +69,7 @@ const Drawer = styled(MUIDrawer, {
   }),
 }));
 
-const SideNav = () => {
-  const [isSideNavOpen, setSideNavOpen] = useState(true);
+const SideNav = ({ open, toggleDrawer }: Props) => {
   const pageList = [
     { text: "Overview", icon: <DashboardIcon /> },
     { text: "Expenses", icon: <ExpenseIcon /> },
@@ -73,16 +77,12 @@ const SideNav = () => {
     { text: "Settings", icon: <SettingsIcon /> },
   ];
 
-  const toggleDrawer = () => {
-    setSideNavOpen((oldState) => !oldState);
-  };
-
   return (
     <>
-      <Drawer variant="permanent" open={isSideNavOpen}>
+      <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={toggleDrawer}>
-            {isSideNavOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />

@@ -16,7 +16,12 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExpenseIcon from "@mui/icons-material/FormatListBulleted";
 import BudgetIcon from "@mui/icons-material/RequestQuote";
 import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { authActions } from "@/store";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   open: boolean;
@@ -71,13 +76,21 @@ const Drawer = styled(MUIDrawer)(({ theme, open }) => ({
 const SideNav = ({ open, toggleDrawer }: Props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const pageList = [
     { text: "Overview", icon: <DashboardIcon /> },
     { text: "Expenses", icon: <ExpenseIcon /> },
     { text: "Budgets", icon: <BudgetIcon /> },
-    { text: "Settings", icon: <SettingsIcon /> },
+    // { text: "Settings", icon: <SettingsIcon /> },
+    { text: "Logout", icon: <LogoutIcon /> },
   ];
+
+  const handleLogout = () => {
+    dispatch(authActions.reset());
+    navigate("/login");
+  };
 
   const DrawerContent = (
     <>
@@ -101,7 +114,7 @@ const SideNav = ({ open, toggleDrawer }: Props) => {
       </List>
       <List sx={{ mt: "auto" }}>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={handleLogout}>
             <ListItemIcon>{pageList[pageList.length - 1].icon}</ListItemIcon>
             <ListItemText primary={pageList[pageList.length - 1].text} />
           </ListItemButton>

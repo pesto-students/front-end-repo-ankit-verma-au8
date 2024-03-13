@@ -21,7 +21,8 @@ import { styled, Theme, CSSObject } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { authActions } from "@/store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 interface Props {
   open: boolean;
@@ -73,23 +74,38 @@ const Drawer = styled(MUIDrawer)(({ theme, open }) => ({
   }),
 }));
 
+const ListButton = styled(ListItemButton)(({ theme, selected }) => ({
+  backgroundColor: selected ? "red" : "initial",
+}));
+
 const SideNav = ({ open, toggleDrawer }: Props) => {
+  const [selectedTab, setSelectedTab] = useState("dashboard");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const pageList = [
-    { text: "Overview", icon: <DashboardIcon /> },
-    { text: "Expenses", icon: <ExpenseIcon /> },
-    { text: "Budgets", icon: <BudgetIcon /> },
-    // { text: "Settings", icon: <SettingsIcon /> },
+  const pageList: Array<{
+    text: string;
+    icon: any;
+    value?: string;
+  }> = [
+    { text: "Overview", value: "dashboard", icon: <DashboardIcon /> },
+    { text: "Expenses", value: "expenses", icon: <ExpenseIcon /> },
+    { text: "Budgets", value: "budgets", icon: <BudgetIcon /> },
+    // { text: "Settings", value: "settings", icon: <SettingsIcon /> },
     { text: "Logout", icon: <LogoutIcon /> },
   ];
 
   const handleLogout = () => {
     dispatch(authActions.reset());
     navigate("/login");
+  };
+
+  const handleTabChange = (value: any) => {
+    setSelectedTab(value);
+    navigate(`/${value}`);
   };
 
   const DrawerContent = (
@@ -103,12 +119,15 @@ const SideNav = ({ open, toggleDrawer }: Props) => {
       </DrawerHeader>
       <Divider />
       <List>
-        {pageList.slice(0, pageList.length - 1).map(({ text, icon }) => (
+        {pageList.slice(0, pageList.length - 1).map(({ text, value, icon }) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListButton
+              selected={value === selectedTab}
+              onClick={() => handleTabChange(value)}
+            >
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
-            </ListItemButton>
+            </ListButton>
           </ListItem>
         ))}
       </List>

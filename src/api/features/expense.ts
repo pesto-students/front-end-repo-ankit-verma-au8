@@ -35,3 +35,8 @@ export const getExpenseList = async (
   });
   return data;
 };
+
+export const getAllExpenseCategories = async () => {
+  const { data } = await axiosInstance.get(`expense/categories`);
+  return data;
+};

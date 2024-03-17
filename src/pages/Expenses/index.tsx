@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import dayjs from "dayjs";
 import {
   Grid,
@@ -12,6 +13,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Card from "@/components/Card";
 import DatePicker from "@/components/DatePicker";
+import ExpenseList from "@/components/ExpenseList";
 import { useForm, Controller } from "react-hook-form";
 import { getDate } from "@/utils";
 
@@ -51,6 +53,70 @@ const Expenses = () => {
       to: dayjs(getDate(1, false, true)),
     },
   });
+  const expenseList = useRef([
+    {
+      category: "Utility",
+      message: "Spent 1000 on bills",
+      expense: 1000,
+      date: "31/1/24",
+    },
+    {
+      category:
+        "UtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtility",
+      message:
+        "Spent 2000 on floor repairSpent 2000 on floor repairSpent 2000 on floor repairSpent 2000 on floor repair",
+      expense: 2000,
+      date: "29/1/24",
+    },
+    {
+      category: "Utility",
+      message: "Spent 1000 on bills",
+      expense: 1000,
+      date: "27/1/24",
+    },
+    {
+      category: "Utility",
+      message: "Spent 1000 on bills",
+      expense: 1000,
+      date: "25/1/24",
+    },
+    {
+      category: "Utility",
+      message: "Spent 2000 on floor repair",
+      expense: 2000,
+      date: "23/1/24",
+    },
+    {
+      category: "Utility",
+      message: "Spent 1000 on bills",
+      expense: 1000,
+      date: "21/1/24",
+    },
+    {
+      category: "Utility",
+      message: "Spent 1000 on bills",
+      expense: 1000,
+      date: "19/1/24",
+    },
+    {
+      category: "Utility",
+      message: "Spent 2000 on floor repair",
+      expense: 2000,
+      date: "17/1/24",
+    },
+    {
+      category: "Utility",
+      message: "Spent 1000 on bills",
+      expense: 1000,
+      date: "15/1/24",
+    },
+    {
+      category: "Utility",
+      message: "Spent 2000 on floor repair",
+      expense: 2000,
+      date: "13/1/24",
+    },
+  ]);
 
   const onSubmit = (userData: any) => {
     console.log("VALUE FILTER", userData);
@@ -128,10 +194,22 @@ const Expenses = () => {
       <Grid item xs={12} sm={7}>
         <GridBox>
           <Card sx={{ borderRadius: 2 }}>
-            <Typography color="text.main" variant="body1">
+            {/* <Typography color="text.main" variant="body1">
               Total Expenses(this month)
               <br /> ₹ 13123423
+            </Typography> */}
+            <Typography color="text.main" variant="h5" sx={{ mb: 3 }}>
+              Latest Expenses
             </Typography>
+
+            {/* {expenseList.current.length && }
+            {!expenseList.current.length && ( */}
+            <ExpenseList
+              // loading={true}
+              expenses={expenseList.current}
+              // expenses={[]}
+            />
+            {/* )} */}
           </Card>
         </GridBox>
       </Grid>

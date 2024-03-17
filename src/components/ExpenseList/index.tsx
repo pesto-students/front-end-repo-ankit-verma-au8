@@ -8,9 +8,12 @@ import {
   Collapse,
   Box,
   Tooltip,
+  CircularProgress,
 } from "@mui/material";
+import ErrorIcon from "@mui/icons-material/Error";
 import { useState } from "react";
 import { truncateMessage } from "@/utils";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 interface IExpenseItem {
   category: string;
@@ -21,10 +24,12 @@ interface IExpenseItem {
 
 interface IExpenseList {
   expenses: IExpenseItem[];
+  loading?: boolean;
 }
 
-const ExpenseList = ({ expenses }: IExpenseList) => {
+const ExpenseList = ({ expenses, loading }: IExpenseList) => {
   const [openItems, setOpenItems] = useState<number[]>([]);
+  const { isMobile } = useIsMobile();
   const handleClick = (idx: number): void => {
     setOpenItems((prevOpenItems) =>
       prevOpenItems.includes(idx)
@@ -32,6 +37,22 @@ const ExpenseList = ({ expenses }: IExpenseList) => {
         : [...prevOpenItems, idx]
     );
   };
+
+  // Showing loader if data is still loading
+  if (loading) {
+    return <CircularProgress />;
+  }
+
+  // Showing a message if an empty array is supplied as data
+  if (expenses.length === 0) {
+    return (
+      <Box>
+        <ErrorIcon color="info" fontSize="large" sx={{ fontSize: 60, mb: 1 }} />
+        <Typography>No data available</Typography>
+      </Box>
+    );
+  }
+
   return (
     <List sx={{}}>
       {expenses.map(
@@ -42,8 +63,25 @@ const ExpenseList = ({ expenses }: IExpenseList) => {
                 <Avatar>{category.charAt(0).toUpperCase()}</Avatar>
               </ListItemAvatar>
 
-              <Tooltip title={category.length > 25 ? category : ""}>
-                <ListItemText primary={truncateMessage(category, 25)} />
+              {/* Category tooltip and name */}
+              <Tooltip
+                title={
+                  isMobile
+                    ? category.length > 10
+                      ? category
+                      : ""
+                    : category.length > 35
+                    ? category
+                    : ""
+                }
+              >
+                <ListItemText
+                  primary={
+                    isMobile
+                      ? truncateMessage(category, 10)
+                      : truncateMessage(category, 35)
+                  }
+                />
               </Tooltip>
 
               <Typography>₹ {expense}</Typography>
@@ -55,10 +93,25 @@ const ExpenseList = ({ expenses }: IExpenseList) => {
               sx={{ px: 2 }}
             >
               <Box sx={{ display: "flex" }}>
-                <Tooltip title={message.length > 30 ? message : ""}>
+                {/* Expense message tooltip and name */}
+                <Tooltip
+                  title={
+                    isMobile
+                      ? message.length > 15
+                        ? message
+                        : ""
+                      : message.length > 35
+                      ? message
+                      : ""
+                  }
+                >
                   <ListItemText
-                    secondary={truncateMessage(message)}
-                    sx={{ ml: 5 }}
+                    secondary={
+                      isMobile
+                        ? truncateMessage(message, 15)
+                        : truncateMessage(message, 35)
+                    }
+                    sx={{ ml: 5, textAlign: "left" }}
                   />
                 </Tooltip>
 

@@ -4,9 +4,11 @@ import Navbar from "@/components/RootLayout/NavBar";
 import SideNav from "../SideNav";
 import MainSection from "../MainSection";
 import { Outlet } from "react-router-dom";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 const RootLayout = () => {
   const [isSideNavOpen, setSideNavOpen] = useState(true);
+  const { isMobile } = useIsMobile();
 
   const toggleDrawer = () => {
     setSideNavOpen((oldState) => !oldState);
@@ -26,7 +28,7 @@ const RootLayout = () => {
             border: "1px solid red",
             display: "grid",
             alignItems: "start",
-            height: "100%",
+            height: isMobile ? "100%" : "100vmax",
           }}
         >
           <Outlet />

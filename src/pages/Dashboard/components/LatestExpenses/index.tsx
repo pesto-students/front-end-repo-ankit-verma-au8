@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 // import { styled } from "@mui/material/styles";
-import ExpenseList from "../ExpenseList";
+import ExpenseList from "@/components/ExpenseList";
 import Card from "@/components/Card";
 import { useRef } from "react";
 

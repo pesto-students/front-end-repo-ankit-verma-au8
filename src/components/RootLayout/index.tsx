@@ -22,7 +22,7 @@ const RootLayout = () => {
           maxWidth={false}
           sx={{
             backgroundColor: "background.main",
-            padding: "10px 50px",
+            padding: "10px 10px",
             border: "1px solid red",
             display: "grid",
             alignItems: "start",

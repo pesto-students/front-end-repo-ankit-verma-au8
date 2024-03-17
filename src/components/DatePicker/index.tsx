@@ -1,5 +1,6 @@
 import { Ref, forwardRef } from "react";
 import { Dayjs } from "dayjs";
+import "dayjs/locale/en-gb";
 import { DemoItem as Container } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -15,7 +16,7 @@ interface Props {
 const DatePicker = forwardRef(
   ({ label, value, onChange, ...rest }: Props, ref: Ref<HTMLInputElement>) => {
     return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
         <Container>
           <Picker
             label={label}

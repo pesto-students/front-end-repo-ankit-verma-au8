@@ -49,5 +49,5 @@ export const getDate = (
   } else {
     newDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), day);
   }
-  return formatInString ? newDate.toLocaleDateString() : newDate;
+  return formatInString ? newDate.toLocaleDateString("en-GB") : newDate;
 };

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import dayjs from "dayjs";
 import {
   Grid,
@@ -7,6 +7,8 @@ import {
   InputLabel,
   FormControl,
   Button,
+  Divider,
+  Tooltip,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Select from "@mui/material/Select";
@@ -15,7 +17,8 @@ import Card from "@/components/Card";
 import DatePicker from "@/components/DatePicker";
 import ExpenseList from "@/components/ExpenseList";
 import { useForm, Controller } from "react-hook-form";
-import { getDate } from "@/utils";
+import { getDate, truncateMessage } from "@/utils";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 const GridBox = styled(Box)(({ theme }) => ({
   // backgroundColor: "bisque",
@@ -34,10 +37,63 @@ const DatesContainer = styled("div")(({ theme }) => ({
 const ButtonContainer = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "flex-end",
-  // justifyContent: "space-between",
 }));
 
+const SummaryBox = ({
+  isMobile,
+  values,
+  isCurrency = false,
+}: {
+  isMobile: boolean;
+  values: Array<any>;
+  isCurrency?: boolean;
+}) => {
+  let summaryValue = isCurrency
+    ? `₹ ${values[1].toLocaleString("en-IN")}`
+    : values[1].toLocaleString("en-IN");
+  return (
+    <Box>
+      {/* Summary type */}
+      <Typography
+        color="text.secondary"
+        variant={isMobile ? "body2" : "h5"}
+        display="inline"
+        sx={{ mr: 1, fontWeight: 600 }}
+      >
+        {values[0]}:
+      </Typography>
+
+      {/* Tooltip for summary value */}
+      <Tooltip
+        title={
+          isMobile
+            ? summaryValue.toString().length > 6
+              ? summaryValue
+              : ""
+            : values[1].toString().length > 10
+            ? summaryValue
+            : ""
+        }
+      >
+        {/* Summary value */}
+        <Typography
+          color="text.main"
+          variant={isMobile ? "h6" : "h5"}
+          display="inline"
+        >
+          {isMobile
+            ? truncateMessage(summaryValue, 11)
+            : truncateMessage(summaryValue, 15)}
+        </Typography>
+      </Tooltip>
+    </Box>
+  );
+};
+
 const Expenses = () => {
+  const [fromDate, setFromDate] = useState(getDate(1, true));
+  const [toDate, setToDate] = useState(getDate(1, true, true));
+  const { isMobile } = useIsMobile();
   const {
     register,
     control,
@@ -119,7 +175,9 @@ const Expenses = () => {
   ]);
 
   const onSubmit = (userData: any) => {
-    console.log("VALUE FILTER", userData);
+    const { from, to } = userData;
+    setFromDate(from.format("DD/MM/YYYY"));
+    setToDate(to.format("DD/MM/YYYY"));
   };
 
   return (
@@ -176,7 +234,7 @@ const Expenses = () => {
                 variant="outlined"
                 onClick={() => resetForm({}, { keepDefaultValues: true })}
               >
-                Clear All
+                Reset
               </Button>
               <Button
                 variant="contained"
@@ -194,16 +252,22 @@ const Expenses = () => {
       <Grid item xs={12} sm={7}>
         <GridBox>
           <Card sx={{ borderRadius: 2 }}>
-            {/* <Typography color="text.main" variant="body1">
-              Total Expenses(this month)
-              <br /> ₹ 13123423
-            </Typography> */}
             <Typography color="text.main" variant="h5" sx={{ mb: 3 }}>
-              Latest Expenses
+              {`${fromDate} - ${toDate}`}
             </Typography>
 
-            {/* {expenseList.current.length && }
-            {!expenseList.current.length && ( */}
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+            >
+              <SummaryBox isMobile={isMobile} values={["Transactions", 23]} />
+              <SummaryBox
+                isMobile={isMobile}
+                values={["Total", 23000000000]}
+                isCurrency={true}
+              />
+            </Box>
+            <Divider />
+
             <ExpenseList
               // loading={true}
               expenses={expenseList.current}

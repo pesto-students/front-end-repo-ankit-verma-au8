@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Drawer as MUIDrawer,
   IconButton,
@@ -7,8 +8,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -22,7 +21,7 @@ import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { authActions } from "@/store";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 interface Props {
   open: boolean;
@@ -80,8 +79,7 @@ const ListButton = styled(ListItemButton)(({ theme, selected }) => ({
 
 const SideNav = ({ open, toggleDrawer }: Props) => {
   const [selectedTab, setSelectedTab] = useState("dashboard");
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { isMobile } = useIsMobile();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();

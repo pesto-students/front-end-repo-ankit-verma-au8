@@ -1,18 +1,11 @@
 import { styled } from "@mui/material/styles";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { isUserLoggedIn } from "@/store";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 interface Props {
   drawerOpen: boolean;
@@ -29,8 +22,7 @@ const NavbarButton = styled(IconButton)(({ theme }) => ({
 const Navbar = ({ toggleDrawer }: Props) => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector(isUserLoggedIn);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { isMobile } = useIsMobile();
 
   const handleProfileMenuOpen = (): void => {
     // setAnchorEl(event.currentTarget);

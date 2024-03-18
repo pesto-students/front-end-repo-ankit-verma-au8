@@ -7,12 +7,10 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Avatar, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { getAllExpenseCategories } from "@/api";
-
-type Category = {
-  name: string;
-  id: number;
-};
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { fetchAllCategories } from "@/store/slices/budget";
+import { RootState } from "@/store";
 
 interface CategoryDropDownProps {
   readonly: boolean;
@@ -31,14 +29,13 @@ const CategoryDropDown: React.FunctionComponent<CategoryDropDownProps> = ({
   errorText,
   readonly,
 }) => {
-  const [categories, setCategories] = React.useState<Category[]>([]);
-
+  const {
+    categories: { data },
+  } = useSelector((state: RootState) => state.budget);
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   React.useEffect(() => {
-    (async () => {
-      const data = await getAllExpenseCategories();
-      setCategories(data);
-    })();
-  }, []);
+    if (data.length == 0) dispatch(fetchAllCategories());
+  }, [dispatch, data]);
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -55,8 +52,8 @@ const CategoryDropDown: React.FunctionComponent<CategoryDropDownProps> = ({
           name="categoryId"
           readOnly={readonly}
         >
-          {categories.length != 0
-            ? categories.map((category) => (
+          {data.length != 0
+            ? data.map((category) => (
                 <MenuItem key={category.name} value={category.id}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Avatar

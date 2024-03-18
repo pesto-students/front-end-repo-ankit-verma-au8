@@ -19,6 +19,9 @@ import {
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { createBudget, updateBudget } from "@/api/features/budget";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { fetchBudgets } from "@/store/slices/budget";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -55,6 +58,8 @@ const BudgetDialog: React.FunctionComponent<BudgetDialogProps> = ({
     setOpen(false);
   };
 
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
   const formik = useFormik({
     initialValues: {
       categoryId: categoryId,
@@ -77,6 +82,8 @@ const BudgetDialog: React.FunctionComponent<BudgetDialogProps> = ({
             id
           );
         }
+        dispatch(fetchBudgets());
+        formik.resetForm();
         handleClose();
       } catch (err: any) {
         setBudgetError(err?.response?.data?.message);

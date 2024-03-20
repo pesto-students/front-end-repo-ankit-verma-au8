@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { LoginUserDetails } from "@/types";
 import { loginUser } from "@/api";
 import { RootState } from "@/store";
+import { setCookie, getCookie } from "@/utils";
 
 interface UserState {
   // userNumber: number | null;
@@ -45,6 +46,8 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     reset: () => {
+      setCookie("auth", "", true);
+      setCookie("user-id", "", true);
       return { ...initialState };
     },
   },
@@ -57,6 +60,9 @@ const authSlice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       state.authToken = action.payload.authToken;
       state.userId = action.payload.userId;
+
+      setCookie("auth", action.payload.authToken);
+      setCookie("user-id", action.payload.userId);
 
       state.loading = false;
       state.error = undefined;
@@ -73,7 +79,14 @@ const authSlice = createSlice({
 export const { actions: authActions } = authSlice;
 export { login as loginUser };
 
-export const isUserLoggedIn = (state: RootState) =>
-  !!(state.auth.authToken && state.auth.userId);
+export const isUserLoggedIn = (state: RootState) => {
+  let cookieAuthToken = getCookie("auth");
+  let cookieUserId = getCookie("user-id");
+
+  let authToken = state.auth.authToken || cookieAuthToken;
+  let userId = state.auth.userId || cookieUserId;
+
+  return !!(authToken && userId);
+};
 
 export default authSlice.reducer;

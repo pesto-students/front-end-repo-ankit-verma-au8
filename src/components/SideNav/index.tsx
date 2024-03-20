@@ -78,10 +78,13 @@ const ListButton = styled(ListItemButton)(({ theme, selected }) => ({
 }));
 
 const SideNav = ({ open, toggleDrawer }: Props) => {
-  const [selectedTab, setSelectedTab] = useState("dashboard");
+  const location = useLocation();
+  const [selectedTab, setSelectedTab] = useState(() => {
+    let currentTab = location.pathname.replace("/", "");
+    return currentTab;
+  });
   const { isMobile } = useIsMobile();
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const pageList: Array<{

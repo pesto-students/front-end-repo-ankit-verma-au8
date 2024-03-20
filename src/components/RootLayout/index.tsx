@@ -7,8 +7,8 @@ import { Outlet } from "react-router-dom";
 import useIsMobile from "@/hooks/common/useIsMobile";
 
 const RootLayout = () => {
-  const [isSideNavOpen, setSideNavOpen] = useState(true);
   const { isMobile } = useIsMobile();
+  const [isSideNavOpen, setSideNavOpen] = useState(!isMobile);
 
   const toggleDrawer = () => {
     setSideNavOpen((oldState) => !oldState);

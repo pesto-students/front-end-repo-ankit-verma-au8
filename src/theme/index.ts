@@ -18,6 +18,7 @@ const theme = createTheme({
       main: "#000000",
       secondary: "#6C737F",
       disabled: "#9097A2",
+      error: "#ff3333",
       //   normal: "#cbcbcb",
       //   muted: "#999999",
       //   disabled: "#707070",
@@ -58,6 +59,10 @@ const theme = createTheme({
       fontWeight: 600,
       fontSize: "1rem",
       //   lineHeight: 1.2,
+    },
+    subtitle1: {
+      fontWeight: 300,
+      fontSize: "0.8rem",
     },
   },
 });

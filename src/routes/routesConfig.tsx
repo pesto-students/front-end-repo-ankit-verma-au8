@@ -4,6 +4,7 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
+import Budget from "@/pages/Budget";
 
 const routes = [
   {
@@ -28,8 +29,13 @@ const routes = [
             path: "dashboard",
             element: <Dashboard />,
           },
+          {
+            path: "budget",
+            element: <Budget />,
+          },
         ],
       },
+
       {
         path: "*",
         element: <>404</>,

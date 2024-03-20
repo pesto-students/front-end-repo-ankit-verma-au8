@@ -29,20 +29,16 @@ const routes = [
             path: "dashboard",
             element: <Dashboard />,
           },
+          {
+            path: "budget",
+            element: <Budget />,
+          },
         ],
       },
+
       {
         path: "*",
         element: <>404</>,
-      },
-    ],
-  },
-  {
-    element: <RootLayout />,
-    children: [
-      {
-        path: "budget",
-        element: <Budget />,
       },
     ],
   },

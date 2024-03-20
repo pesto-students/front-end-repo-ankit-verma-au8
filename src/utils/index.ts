@@ -51,3 +51,37 @@ export const getDate = (
   }
   return formatInString ? newDate.toLocaleDateString("en-GB") : newDate;
 };
+
+/**
+ * Returns a cookie's value
+ *
+ * @param {string} key The cookie's name
+ * @returns {string} The cookie's value
+ */
+export const getCookie = (key: string) => {
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(`${key}=`))
+    ?.split("=")[1];
+
+  return cookieValue;
+};
+
+/**
+ * Sets a cookie
+ *
+ * @param {string} key The cookie's name
+ * @param {string} value The cookie's value
+ * @param {boolean} deleteCookie Delete cookie
+ */
+export const setCookie = (
+  key: string,
+  value: string,
+  deleteCookie: boolean = false
+) => {
+  if (!deleteCookie) {
+    document.cookie = `${key}=${value}; max-age=86400; samesite=lax;`;
+  } else {
+    document.cookie = `${key}=; max-age=0;`;
+  }
+};

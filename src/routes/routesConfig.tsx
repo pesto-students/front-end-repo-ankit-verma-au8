@@ -9,7 +9,7 @@ import Budget from "@/pages/Budget";
 const routes = [
   {
     path: "/",
-    element: <Home />,
+    element: <Login />,
   },
   {
     path: "login",

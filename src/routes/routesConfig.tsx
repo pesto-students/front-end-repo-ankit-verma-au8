@@ -1,6 +1,5 @@
 import RootLayout from "@/components/RootLayout";
 import ProtectedRoutes from "@/components/ProtectedRoutes";
-import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";

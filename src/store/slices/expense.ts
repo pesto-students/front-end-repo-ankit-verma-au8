@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getExpenseTrends, getExpenseCategories, getExpenseList } from "@/api";
+import {
+  getExpenseTrends,
+  getExpenseCategories,
+  getExpenseList,
+  getTotalExpense,
+} from "@/api";
 
 interface IExpenseState {
   trends: {
@@ -20,6 +25,13 @@ interface IExpenseState {
     success: boolean;
     loading: boolean;
   };
+  total: {
+    data: null | object[] | [];
+    error: any;
+    success: boolean;
+    loading: boolean;
+  };
+  top?: any;
 }
 
 const initialState: IExpenseState = {
@@ -36,6 +48,12 @@ const initialState: IExpenseState = {
     loading: false,
   },
   list: {
+    data: null,
+    error: false,
+    success: false,
+    loading: false,
+  },
+  total: {
     data: null,
     error: false,
     success: false,
@@ -121,6 +139,31 @@ const fetchListData = createAsyncThunk(
   }
 );
 
+const fetchTotalExpenseData = createAsyncThunk(
+  "expense/fetchTotalExpenseData",
+  async (
+    {
+      month,
+      year,
+    }: {
+      month: number;
+      year: number;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const data = await getTotalExpense(month, year);
+      return data;
+    } catch (err: any) {
+      if (!err.response) {
+        throw err;
+      }
+
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
 const expenseSlice = createSlice({
   name: "expense",
   initialState,
@@ -189,9 +232,33 @@ const expenseSlice = createSlice({
         state.list.error = action.payload;
         state.list.success = false;
       });
+
+    builder
+      .addCase(fetchTotalExpenseData.pending, (state) => {
+        state.total.loading = true;
+        state.total.error = false;
+        state.total.success = false;
+      })
+      .addCase(fetchTotalExpenseData.fulfilled, (state, action) => {
+        state.total.data = action.payload.totalExpense[0];
+
+        state.total.loading = false;
+        state.total.error = false;
+        state.total.success = true;
+      })
+      .addCase(fetchTotalExpenseData.rejected, (state, action) => {
+        state.total.loading = false;
+        state.total.error = action.payload;
+        state.total.success = false;
+      });
   },
 });
 
-export { fetchTrendsData, fetchCategoriesData, fetchListData };
+export {
+  fetchTrendsData,
+  fetchCategoriesData,
+  fetchListData,
+  fetchTotalExpenseData,
+};
 
 export default expenseSlice.reducer;

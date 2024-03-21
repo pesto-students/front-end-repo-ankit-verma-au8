@@ -129,7 +129,9 @@ const BudgetCard: FC<BudgetCardProps> = ({
         {categoryName}
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center", margin: "10px 0" }}>
-        <Avatar sx={{ bgcolor: red[900], width: 50, height: 50 }}>E</Avatar>
+        <Avatar sx={{ bgcolor: red[900], width: 50, height: 50 }}>
+          {categoryName[0]}
+        </Avatar>
         <Box sx={{ ml: 2, flexGrow: 1 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography color="text.main" variant="h6">

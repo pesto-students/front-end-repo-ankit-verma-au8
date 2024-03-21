@@ -5,6 +5,7 @@ import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
 import Expenses from "@/pages/Expenses";
+import Budget from "@/pages/Budget";
 
 const routes = [
   {
@@ -32,6 +33,10 @@ const routes = [
           {
             path: "expenses",
             element: <Expenses />,
+          },
+          {
+            path: "budgets",
+            element: <Budget />,
           },
         ],
       },

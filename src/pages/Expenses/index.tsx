@@ -21,9 +21,7 @@ import { getDate, truncateMessage } from "@/utils";
 import useIsMobile from "@/hooks/common/useIsMobile";
 
 const GridBox = styled(Box)(({ theme }) => ({
-  // backgroundColor: "bisque",
   ...theme.typography.body2,
-  // padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));

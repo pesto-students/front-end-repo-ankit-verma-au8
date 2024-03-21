@@ -11,17 +11,13 @@ import {
 } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ExpenseIcon from "@mui/icons-material/FormatListBulleted";
-import BudgetIcon from "@mui/icons-material/RequestQuote";
-import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { authActions } from "@/store";
 import { useNavigate, useLocation } from "react-router-dom";
 import useIsMobile from "@/hooks/common/useIsMobile";
+import { SIDENAVOPTIONS } from "@/constants";
 
 interface Props {
   open: boolean;
@@ -32,7 +28,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
@@ -73,10 +68,6 @@ const Drawer = styled(MUIDrawer)(({ theme, open }) => ({
   }),
 }));
 
-const ListButton = styled(ListItemButton)(({ theme, selected }) => ({
-  backgroundColor: selected ? "red" : "initial",
-}));
-
 const SideNav = ({ open, toggleDrawer }: Props) => {
   const location = useLocation();
   const [selectedTab, setSelectedTab] = useState(() => {
@@ -87,24 +78,12 @@ const SideNav = ({ open, toggleDrawer }: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const pageList: Array<{
-    text: string;
-    icon: any;
-    value?: string;
-  }> = [
-    { text: "Overview", value: "dashboard", icon: <DashboardIcon /> },
-    { text: "Expenses", value: "expenses", icon: <ExpenseIcon /> },
-    { text: "Budgets", value: "budgets", icon: <BudgetIcon /> },
-    // { text: "Settings", value: "settings", icon: <SettingsIcon /> },
-    { text: "Logout", icon: <LogoutIcon /> },
-  ];
-
   const handleLogout = () => {
     dispatch(authActions.reset());
     navigate("/login");
   };
 
-  const handleTabChange = (value: any) => {
+  const handleTabChange = (value: string) => {
     setSelectedTab(value);
     navigate(`/${value}`);
   };
@@ -120,23 +99,29 @@ const SideNav = ({ open, toggleDrawer }: Props) => {
       </DrawerHeader>
       <Divider />
       <List>
-        {pageList.slice(0, pageList.length - 1).map(({ text, value, icon }) => (
-          <ListItem key={text} disablePadding>
-            <ListButton
-              selected={value === selectedTab}
-              onClick={() => handleTabChange(value)}
-            >
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListButton>
-          </ListItem>
-        ))}
+        {SIDENAVOPTIONS.slice(0, SIDENAVOPTIONS.length - 1).map(
+          ({ title, value, icon }) => (
+            <ListItem key={title} disablePadding>
+              <ListItemButton
+                selected={value === selectedTab}
+                onClick={() => handleTabChange(value)}
+              >
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={title} />
+              </ListItemButton>
+            </ListItem>
+          )
+        )}
       </List>
       <List sx={{ mt: "auto" }}>
         <ListItem disablePadding>
           <ListItemButton onClick={handleLogout}>
-            <ListItemIcon>{pageList[pageList.length - 1].icon}</ListItemIcon>
-            <ListItemText primary={pageList[pageList.length - 1].text} />
+            <ListItemIcon>
+              {SIDENAVOPTIONS[SIDENAVOPTIONS.length - 1].icon}
+            </ListItemIcon>
+            <ListItemText
+              primary={SIDENAVOPTIONS[SIDENAVOPTIONS.length - 1].title}
+            />
           </ListItemButton>
         </ListItem>
       </List>

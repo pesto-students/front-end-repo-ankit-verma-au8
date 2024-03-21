@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IconButton, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { getMonthYear } from "@/utils";
+import { getMonthYear, getDate } from "@/utils";
 
 const Container = styled(Box)(({}) => ({
   display: "flex",
@@ -17,18 +17,19 @@ const Container = styled(Box)(({}) => ({
 // }));
 
 const MonthSwitcher = () => {
-  const [date, setDate] = useState(() => {
-    let tempDate = new Date();
-    return new Date(tempDate.getFullYear(), tempDate.getMonth(), 1);
-  });
+  const [date, setDate] = useState(getDate(1));
 
   const handlePrevClick = () => {
-    let newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-    setDate(newDate);
+    if (date instanceof Date) {
+      let newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+      setDate(newDate);
+    }
   };
   const handleNextClick = () => {
-    let newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-    setDate(newDate);
+    if (date instanceof Date) {
+      let newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+      setDate(newDate);
+    }
   };
 
   return (
@@ -50,7 +51,7 @@ const MonthSwitcher = () => {
           textAlign: "center",
         }}
       >
-        {getMonthYear(date)}
+        {getMonthYear(date as Date)}
       </Typography>
       <IconButton
         size="small"

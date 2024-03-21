@@ -50,7 +50,7 @@ const MonthSwitcher = ({ updateChartData }: MonthSwitcherProps) => {
         <ChevronLeft fontSize="small" />
       </IconButton>
       <Typography
-        variant="body1"
+        variant="h6"
         display="inline"
         sx={{
           width: "100%",

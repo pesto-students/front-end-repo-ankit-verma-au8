@@ -1,0 +1,202 @@
+import {
+  Avatar,
+  Box,
+  FormControlLabel,
+  IconButton,
+  Snackbar,
+  Switch,
+  Typography,
+  alpha,
+} from "@mui/material";
+import Card from "@mui/material/Card";
+import { styled } from "@mui/material/styles";
+import LinearProgress, {
+  linearProgressClasses,
+  LinearProgressProps,
+} from "@mui/material/LinearProgress";
+import { green, red } from "@mui/material/colors";
+import EditIcon from "@mui/icons-material/Edit";
+import { FC, useState } from "react";
+import { updateBudget } from "@/api/features/budget";
+import BudgetDialog from "../BudgetDialog";
+
+interface CustomLinearProgressProps extends LinearProgressProps {
+  customcolor?: string;
+}
+
+function getExpenseColor(expense: number, limit: number) {
+  const ratio = (expense / limit) * 100;
+
+  if (ratio < 50) {
+    return "#007500";
+  } else if (ratio >= 50 && ratio <= 90) {
+    return "#FAD02C";
+  } else {
+    return "#D22B2B";
+  }
+}
+
+const BorderLinearProgress = styled(LinearProgress)<CustomLinearProgressProps>(
+  ({ theme, customcolor }) => ({
+    height: 12,
+    borderRadius: 8,
+    [`&.${linearProgressClasses.colorPrimary}`]: {
+      backgroundColor:
+        theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+    },
+    [`& .${linearProgressClasses.bar}`]: {
+      borderRadius: 5,
+      backgroundColor: customcolor
+        ? customcolor
+        : theme.palette.mode === "light"
+        ? "#B52222"
+        : "#308fe8",
+    },
+  })
+);
+
+const RedSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: green[800],
+    "&:hover": {
+      backgroundColor: alpha(green[800], theme.palette.action.hoverOpacity),
+    },
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+    backgroundColor: green[800],
+  },
+}));
+
+interface BudgetCardProps {
+  id: string;
+  categoryName: string;
+  categoryId?: string;
+  amount: string;
+  startDate: string;
+  endDate: string;
+  totalExpense: string;
+  reminders: boolean;
+}
+
+const BudgetCard: FC<BudgetCardProps> = ({
+  id,
+  categoryName,
+  amount,
+  startDate,
+  endDate,
+  totalExpense,
+  reminders,
+  categoryId,
+}) => {
+  const expensePercentage = (Number(totalExpense) / Number(amount)) * 100;
+  const [remindersState, setRemindersState] = useState(reminders);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleChangeReminder = async () => {
+    try {
+      const updatedVal: boolean = !remindersState;
+      setRemindersState(updatedVal);
+      await updateBudget({ reminders: updatedVal }, id);
+      setErrorMessage(`Reminders updated for ${categoryName} budget`);
+    } catch (err) {
+      setErrorMessage("Error while updating budget. Pls try again.");
+      setRemindersState((val) => !val);
+    }
+  };
+
+  const handleClose = () => {
+    setErrorMessage("");
+  };
+
+  return (
+    <Card
+      sx={{
+        maxWidth: "500px",
+        minWidth: "474px",
+        height: "200px",
+        padding: "15px",
+        marginBottom: "15px",
+      }}
+    >
+      <BudgetDialog
+        id={id}
+        categoryId={categoryId}
+        amount={amount}
+        open={open}
+        setOpen={setOpen}
+      />
+      <Typography color="text.main" variant="h5" sx={{ textAlign: "center" }}>
+        {categoryName}
+      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", margin: "10px 0" }}>
+        <Avatar sx={{ bgcolor: red[900], width: 50, height: 50 }}>E</Avatar>
+        <Box sx={{ ml: 2, flexGrow: 1 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography color="text.main" variant="h6">
+              Rs.{totalExpense}
+            </Typography>
+            <Typography color="text.main" variant="h6">
+              Rs.{amount}
+            </Typography>
+          </Box>
+          <Box sx={{ padding: "2px 0" }}>
+            <BorderLinearProgress
+              variant="determinate"
+              value={expensePercentage > 100 ? 100 : expensePercentage}
+              customcolor={getExpenseColor(
+                Number(totalExpense),
+                Number(amount)
+              )}
+            />
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography color="text.main" variant="h6">
+              {new Date(startDate).toLocaleDateString()}
+            </Typography>
+            <Typography color="text.main" variant="h6">
+              {new Date(endDate).toLocaleDateString()}
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+      <Typography sx={{ marginTop: "12px" }} color="text.main" variant="h6">
+        Residue amount: Rs.{Number(amount) - Number(totalExpense)}
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "15px",
+        }}
+      >
+        <FormControlLabel
+          control={
+            <RedSwitch
+              onChange={handleChangeReminder}
+              checked={remindersState}
+            />
+          }
+          label="Whatsapp reminders"
+        />
+        <Box>
+          <IconButton
+            onClick={() => {
+              setOpen(true);
+            }}
+            aria-label="update"
+          >
+            <EditIcon />
+          </IconButton>
+        </Box>
+      </Box>
+      <Snackbar
+        open={Boolean(errorMessage)}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        message={errorMessage}
+      />
+    </Card>
+  );
+};
+
+export default BudgetCard;

@@ -1,11 +1,19 @@
-import Chart from "@/components/Chart";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+import { ThemeProvider } from "@mui/material/styles";
+import routes from "@/routes/routesConfig";
+import store from "@/store";
+import theme from "@/theme";
+
+const router = createBrowserRouter(routes);
 
 function App() {
   return (
-    <>
-      PROD
-      <Chart maxHeight="30%" maxWidth="30%" />
-    </>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </Provider>
   );
 }
 

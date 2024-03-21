@@ -1,6 +1,5 @@
 import RootLayout from "@/components/RootLayout";
 import ProtectedRoutes from "@/components/ProtectedRoutes";
-import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
@@ -10,7 +9,7 @@ import Budget from "@/pages/Budget";
 const routes = [
   {
     path: "/",
-    element: <Home />,
+    element: <Login />,
   },
   {
     path: "login",

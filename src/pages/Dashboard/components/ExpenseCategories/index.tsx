@@ -37,7 +37,7 @@ const ExpenseCategories = () => {
         <Typography variant="h5" display="inline">
           Top Categories
         </Typography>
-        <MonthSwitcher />
+        <MonthSwitcher updateChartData={fetchData} />
       </HeaderContainer>
       <ChartContainer>
         {loading && <CircularProgress />}

@@ -9,7 +9,7 @@ interface HookReturnData {
   loading: boolean;
   error: boolean;
   success: boolean;
-  fetchData: () => void;
+  fetchData: (month: number, year: number) => void;
 }
 
 interface Accumulator {
@@ -34,18 +34,21 @@ const useCategoriesData = (): HookReturnData => {
       };
     }, accumulatorInitialValue) || accumulatorInitialValue;
 
-  const getCategoriesData = () => {
-    const date = getDate(1) as Date;
+  const getCategoriesData = (month: number, year: number) => {
     dispatch(
       fetchCategoriesData({
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
+        month,
+        year,
       })
     );
   };
 
   useEffect(() => {
-    getCategoriesData();
+    const date = getDate(1) as Date;
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    getCategoriesData(month, year);
   }, []);
 
   return {

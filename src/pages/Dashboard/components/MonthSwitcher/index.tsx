@@ -4,6 +4,10 @@ import { styled } from "@mui/material/styles";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { getMonthYear, getDate } from "@/utils";
 
+interface MonthSwitcherProps {
+  updateChartData: (month: number, year: number) => void;
+}
+
 const Container = styled(Box)(({}) => ({
   display: "flex",
   alignItems: "center",
@@ -16,18 +20,20 @@ const Container = styled(Box)(({}) => ({
 //   textAlign: "center",
 // }));
 
-const MonthSwitcher = () => {
+const MonthSwitcher = ({ updateChartData }: MonthSwitcherProps) => {
   const [date, setDate] = useState(getDate(1));
 
   const handlePrevClick = () => {
     if (date instanceof Date) {
       let newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+      updateChartData(newDate.getMonth() + 1, newDate.getFullYear());
       setDate(newDate);
     }
   };
   const handleNextClick = () => {
     if (date instanceof Date) {
       let newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+      updateChartData(newDate.getMonth() + 1, newDate.getFullYear());
       setDate(newDate);
     }
   };

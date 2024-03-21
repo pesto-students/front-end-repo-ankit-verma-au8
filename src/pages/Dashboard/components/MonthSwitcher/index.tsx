@@ -20,12 +20,16 @@ const MonthSwitcher = () => {
   const [date, setDate] = useState(getDate(1));
 
   const handlePrevClick = () => {
-    let newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-    setDate(newDate);
+    if (date instanceof Date) {
+      let newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+      setDate(newDate);
+    }
   };
   const handleNextClick = () => {
-    let newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-    setDate(newDate);
+    if (date instanceof Date) {
+      let newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+      setDate(newDate);
+    }
   };
 
   return (
@@ -47,7 +51,7 @@ const MonthSwitcher = () => {
           textAlign: "center",
         }}
       >
-        {getMonthYear(date)}
+        {getMonthYear(date as Date)}
       </Typography>
       <IconButton
         size="small"

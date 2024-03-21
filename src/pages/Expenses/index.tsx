@@ -32,7 +32,7 @@ const DatesContainer = styled("div")(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const ButtonContainer = styled("div")(({ theme }) => ({
+const ButtonContainer = styled("div")(() => ({
   display: "flex",
   justifyContent: "flex-end",
 }));
@@ -93,13 +93,13 @@ const Expenses = () => {
   const [toDate, setToDate] = useState(getDate(1, true, true));
   const { isMobile } = useIsMobile();
   const {
-    register,
+    // register,
     control,
     handleSubmit,
-    watch,
-    getValues,
+    // watch,
+    // getValues,
     reset: resetForm,
-    formState: { errors },
+    // formState: { errors },
   } = useForm({
     defaultValues: {
       category: 10,

@@ -8,7 +8,7 @@ interface CardProps {
 const Card = ({ children, sx, ...rest }: CardProps) => {
   return (
     <MUICard sx={sx} raised={true} {...rest}>
-      <CardContent>{children}</CardContent>
+      <CardContent sx={{ height: "100%" }}>{children}</CardContent>
     </MUICard>
   );
 };

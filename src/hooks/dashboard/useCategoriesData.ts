@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState, fetchCategoriesData } from "@/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect } from "react";
+import { getDate } from "@/utils";
 
 interface HookReturnData {
   data: Accumulator;
@@ -34,7 +35,13 @@ const useCategoriesData = (): HookReturnData => {
     }, accumulatorInitialValue) || accumulatorInitialValue;
 
   const getCategoriesData = () => {
-    dispatch(fetchCategoriesData({ month: 1, year: 2024 }));
+    const date = getDate(1) as Date;
+    dispatch(
+      fetchCategoriesData({
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+      })
+    );
   };
 
   useEffect(() => {

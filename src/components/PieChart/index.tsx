@@ -17,7 +17,6 @@ const ChartContainer = styled("div")(({ theme }) => ({
   maxWidth: "99%",
   display: "flex",
   justifyContent: "center",
-  border: "1px solid red",
   [`${theme.breakpoints.up("md")}`]: {
     height: "50vh",
     maxWidth: "100%",

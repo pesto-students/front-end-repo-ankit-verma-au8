@@ -34,7 +34,7 @@ const Dashboard = () => {
                   type="error"
                 />
               )}
-              {!(error || loading) && Object?.keys(data).length && (
+              {!(error || loading) && Object?.keys(data).length !== 0 && (
                 <Typography color="text.main" variant="h6">
                   Total Expenses (this month)
                   <br /> ₹ {data?.totalAmount}

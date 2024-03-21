@@ -43,7 +43,7 @@ export const getAllExpenseCategories = async () => {
 
 export const getTotalExpense = async (month: number, year: number) => {
   const { data } = await axiosInstance.get(`${USER_ENDPOINT}/total`, {
-    params: { month: "a", year },
+    params: { month, year },
   });
 
   return data;

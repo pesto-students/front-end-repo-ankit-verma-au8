@@ -39,7 +39,10 @@ const useTotalExpenseData = (): HookReturnData => {
   return {
     data: {
       ...data,
-      totalAmount: Number(data?.totalAmount).toLocaleString("en-IN"),
+      ...(data &&
+        Object?.keys(data).length && {
+          totalAmount: Number(data?.totalAmount).toLocaleString("en-IN"),
+        }),
     },
     loading,
     error,

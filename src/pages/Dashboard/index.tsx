@@ -1,9 +1,11 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ExpenseCategories from "./components/ExpenseCategories";
 import SpendingTrends from "./components/SpendingTrends";
 import LatestExpenses from "./components/LatestExpenses";
+import StatusCard from "@/components/StatusCard";
 import Card from "@/components/Card";
+import useTotalExpenseData from "@/hooks/dashboard/userTotalExpenseData";
 
 const GridBox = styled(Box)(({ theme }) => ({
   // backgroundColor: "bisque",
@@ -14,6 +16,7 @@ const GridBox = styled(Box)(({ theme }) => ({
 }));
 
 const Dashboard = () => {
+  const { data, loading, error } = useTotalExpenseData();
   return (
     <>
       <Grid container spacing={5}>
@@ -24,10 +27,19 @@ const Dashboard = () => {
           </Typography>
           <GridBox>
             <Card sx={{ borderRadius: 2 }}>
-              <Typography color="text.main" variant="body1">
-                Total Expenses(this month)
-                <br /> ₹ 13123423
-              </Typography>
+              {loading && <CircularProgress />}
+              {error && (
+                <StatusCard
+                  primary="There was a problem while fetching data"
+                  type="error"
+                />
+              )}
+              {!(error || loading) && Object?.keys(data).length && (
+                <Typography color="text.main" variant="h6">
+                  Total Expenses (this month)
+                  <br /> ₹ {data?.totalAmount}
+                </Typography>
+              )}
             </Card>
           </GridBox>
         </Grid>

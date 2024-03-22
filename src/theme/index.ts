@@ -13,6 +13,7 @@ const theme = createTheme({
     background: {
       main: "#DEDEDE",
       secondary: "#1C2536",
+      landingPage: "#3361FA",
     },
     text: {
       main: "#000000",

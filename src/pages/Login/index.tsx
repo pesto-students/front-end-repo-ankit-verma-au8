@@ -1,10 +1,11 @@
 import {
-  Stack,
   TextField,
   Button,
   Checkbox,
   FormControlLabel,
   CircularProgress,
+  Box,
+  Typography,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -50,59 +51,76 @@ const Login = () => {
   }, [success]);
 
   return (
-    <div style={{ display: "grid", placeItems: "center" }}>
-      <h1>Login Form</h1>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack width={300} spacing={0.5}>
-          <TextField
-            label="Phone Number"
-            type="number"
-            variant="outlined"
-            maxLength="10"
-            size="small"
-            {...register("phoneNumber", {
-              required: "WhatsApp phone number is required",
-              minLength: {
-                value: 10,
-                message: "Phone number should be at least 10 digits long",
-              },
-            })}
-            error={!!errors.phoneNumber}
-            helperText={errors?.phoneNumber?.message ?? " "}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            variant="outlined"
-            size="small"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 6,
-                message: "Password should be longer than 6 characters",
-              },
-            })}
-            error={!!errors.password}
-            helperText={errors?.password?.message ?? " "}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox {...register("staySignedIn")} sx={{ pl: 0, ml: 0 }} />
-            }
-            label="Stay Signed In"
-          />
-          <Button variant="contained" type="submit" disabled={loading}>
-            {!loading ? (
-              "Login"
-            ) : (
-              <CircularProgress color="inherit" size={20} />
-            )}
-          </Button>
-          {error && <div>{error}</div>}
-        </Stack>
-      </form>
-    </div>
+    <Box
+      sx={{
+        my: 8,
+        mx: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Typography component="h1" variant="h4" sx={{ mb: 2 }}>
+        Sign in
+      </Typography>
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ mt: 1 }}
+      >
+        <TextField
+          label="Phone Number"
+          type="number"
+          variant="outlined"
+          maxLength="10"
+          {...register("phoneNumber", {
+            required: "WhatsApp phone number is required",
+            minLength: {
+              value: 10,
+              message: "Phone number should be at least 10 digits long",
+            },
+          })}
+          sx={{ mb: 2 }}
+          fullWidth
+          error={!!errors.phoneNumber}
+          helperText={errors?.phoneNumber?.message ?? " "}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          variant="outlined"
+          {...register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Password should be longer than 6 characters",
+            },
+          })}
+          fullWidth
+          error={!!errors.password}
+          helperText={errors?.password?.message ?? " "}
+        />
+        <FormControlLabel
+          control={<Checkbox {...register("staySignedIn")} />}
+          label="Stay Signed In"
+        />
+        <Button
+          fullWidth
+          variant="contained"
+          type="submit"
+          disabled={loading}
+          sx={{ my: 1 }}
+        >
+          {!loading ? "Login" : <CircularProgress color="inherit" size={20} />}
+        </Button>
+        {error && (
+          <Typography color="error" variant="subtitle2">
+            {error}
+          </Typography>
+        )}
+      </Box>
+    </Box>
   );
 };
 

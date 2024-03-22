@@ -1,4 +1,11 @@
-import { Stack, TextField, Button, CircularProgress } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Button,
+  CircularProgress,
+  Box,
+  Typography,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,105 +57,125 @@ const SignupForm = () => {
   }, [success]);
 
   return (
-    <div style={{ display: "grid", placeItems: "center" }}>
-      <h1>Signup Form</h1>
+    <Box
+      sx={{
+        my: 8,
+        mx: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Typography component="h1" variant="h4" sx={{ mb: 2 }}>
+        Signup
+      </Typography>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack width={300} spacing={0.5}>
-          {/* Names*/}
-          <Stack spacing={2} direction="row">
-            <TextField
-              label="First Name"
-              type="text"
-              variant="outlined"
-              size="small"
-              {...register("firstName", {
-                required: "Required",
-              })}
-              error={!!errors.firstName}
-              helperText={errors?.firstName?.message ?? " "}
-            />
-
-            <TextField
-              label="Last Name"
-              type="text"
-              variant="outlined"
-              size="small"
-              {...register("lastName", {
-                required: "Required",
-              })}
-              error={!!errors.lastName}
-              helperText={errors?.lastName?.message ?? " "}
-            />
-          </Stack>
-
-          {/* Phone number field*/}
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ mt: 1 }}
+      >
+        {/* Names*/}
+        <Stack spacing={2} direction="row" sx={{ mb: 2 }}>
           <TextField
-            label="Phone Number"
-            type="number"
+            label="First Name"
+            type="text"
             variant="outlined"
-            maxLength="10"
-            size="small"
-            {...register("phoneNumber", {
-              required: "WhatsApp phone number is required",
-              pattern: {
-                value: /^[1-9]\d*(\d+)?$/i,
-                message: "Please enter numbers only",
-              },
-              minLength: {
-                value: 10,
-                message: "Phone number should be at least 10 digits long",
-              },
+            {...register("firstName", {
+              required: "Required",
             })}
-            error={!!errors.phoneNumber}
-            helperText={errors?.phoneNumber?.message ?? " "}
+            fullWidth
+            error={!!errors.firstName}
+            helperText={errors?.firstName?.message ?? " "}
           />
 
-          {/* Password field*/}
           <TextField
-            label="Password"
-            type="password"
+            label="Last Name"
+            type="text"
             variant="outlined"
-            size="small"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password should be longer than 8 characters",
-              },
+            {...register("lastName", {
+              required: "Required",
             })}
-            error={!!errors.password}
-            helperText={errors?.password?.message ?? " "}
+            fullWidth
+            error={!!errors.lastName}
+            helperText={errors?.lastName?.message ?? " "}
           />
-
-          {/* Confirm Password field*/}
-          <TextField
-            label="Confirm Password"
-            type="password"
-            variant="outlined"
-            size="small"
-            {...register("confirmPassword", {
-              required: true,
-              validate: (value: string) => {
-                if (watch("password") !== value) {
-                  return "Passwords do no match";
-                }
-              },
-            })}
-            error={!!errors.confirmPassword}
-            helperText={errors?.confirmPassword?.message ?? " "}
-          />
-          <Button variant="contained" type="submit" disabled={loading}>
-            {!loading ? (
-              "Sign up"
-            ) : (
-              <CircularProgress color="inherit" size={20} />
-            )}
-          </Button>
-          {error && <div>{error}</div>}
         </Stack>
-      </form>
-    </div>
+
+        {/* Phone number field*/}
+        <TextField
+          label="Phone Number"
+          type="number"
+          variant="outlined"
+          maxLength="10"
+          {...register("phoneNumber", {
+            required: "WhatsApp phone number is required",
+            pattern: {
+              value: /^[1-9]\d*(\d+)?$/i,
+              message: "Please enter numbers only",
+            },
+            minLength: {
+              value: 10,
+              message: "Phone number should be at least 10 digits long",
+            },
+          })}
+          sx={{ mb: 2 }}
+          fullWidth
+          error={!!errors.phoneNumber}
+          helperText={errors?.phoneNumber?.message ?? " "}
+        />
+
+        {/* Password field*/}
+        <TextField
+          label="Password"
+          type="password"
+          variant="outlined"
+          {...register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Password should be longer than 8 characters",
+            },
+          })}
+          sx={{ mb: 2 }}
+          fullWidth
+          error={!!errors.password}
+          helperText={errors?.password?.message ?? " "}
+        />
+
+        {/* Confirm Password field*/}
+        <TextField
+          label="Confirm Password"
+          type="password"
+          variant="outlined"
+          {...register("confirmPassword", {
+            required: true,
+            validate: (value: string) => {
+              if (watch("password") !== value) {
+                return "Passwords do no match";
+              }
+            },
+          })}
+          sx={{ mb: 1 }}
+          fullWidth
+          error={!!errors.confirmPassword}
+          helperText={errors?.confirmPassword?.message ?? " "}
+        />
+        <Button variant="contained" type="submit" disabled={loading} fullWidth>
+          {!loading ? (
+            "Sign up"
+          ) : (
+            <CircularProgress color="inherit" size={20} />
+          )}
+        </Button>
+        {error && (
+          <Typography color="error" variant="subtitle2">
+            {error}
+          </Typography>
+        )}
+      </Box>
+    </Box>
   );
 };
 

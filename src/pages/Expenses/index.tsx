@@ -98,7 +98,7 @@ const Expenses = () => {
   const [currPagPage, setCurrPagPage] = useState(1);
   const { isMobile } = useIsMobile();
   const { data: categoriesList } = useCategoriesData();
-  const { data: expenseData, fetchData } = useExpenseListData();
+  const { data: expenseData, error, loading, fetchData } = useExpenseListData();
   const {
     // register,
     control,
@@ -213,7 +213,7 @@ const Expenses = () => {
 
       <Grid item xs={12} sm={7}>
         <GridBox>
-          <Card sx={{ borderRadius: 2 }}>
+          <Card sx={{ borderRadius: 2, minHeight: "105px" }}>
             <Typography color="text.main" variant="h5" sx={{ mb: 3 }}>
               {`${fromDate} - ${toDate}`}
             </Typography>
@@ -234,23 +234,25 @@ const Expenses = () => {
             <Divider />
 
             <ExpenseList
-              // loading={true}
+              loading={loading}
               expenses={expenseData?.data}
+              error={error}
               // expenses={[]}
               sx={{ mb: 2 }}
             />
-            {/* )} */}
-            <Stack spacing={2} sx={{ alignItems: "center" }}>
-              <Pagination
-                color="primary"
-                variant="outlined"
-                shape="rounded"
-                count={50}
-                page={currPagPage}
-                onChange={(_, newPage) => handlePaginationPageChange(newPage)}
-                siblingCount={isMobile ? 0 : 1}
-              />
-            </Stack>
+            {expenseData?.data && expenseData?.data?.length !== 0 && (
+              <Stack spacing={2} sx={{ alignItems: "center" }}>
+                <Pagination
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                  count={50}
+                  page={currPagPage}
+                  onChange={(_, newPage) => handlePaginationPageChange(newPage)}
+                  siblingCount={isMobile ? 0 : 1}
+                />
+              </Stack>
+            )}
           </Card>
         </GridBox>
       </Grid>

@@ -10,10 +10,10 @@ import {
   Tooltip,
   CircularProgress,
 } from "@mui/material";
-import ErrorIcon from "@mui/icons-material/Error";
 import { useState } from "react";
 import { truncateMessage } from "@/utils";
 import useIsMobile from "@/hooks/common/useIsMobile";
+import StatusCard from "@/components/StatusCard";
 
 interface IExpenseItem {
   categoryName: string;
@@ -26,9 +26,10 @@ interface IExpenseList {
   expenses: IExpenseItem[] | null;
   loading?: boolean;
   sx?: object;
+  error?: boolean;
 }
 
-const ExpenseList = ({ expenses, loading, sx }: IExpenseList) => {
+const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
   const [openItems, setOpenItems] = useState<number[]>([]);
   const { isMobile } = useIsMobile();
   const handleClick = (idx: number): void => {
@@ -44,13 +45,28 @@ const ExpenseList = ({ expenses, loading, sx }: IExpenseList) => {
     return <CircularProgress />;
   }
 
-  // Showing a message if an empty array is supplied as data
-  if (expenses?.length === 0) {
+  // Showing error status card if any error in fetching data
+  if (error) {
     return (
-      <Box>
-        <ErrorIcon color="info" fontSize="large" sx={{ fontSize: 60, mb: 1 }} />
-        <Typography>No data available</Typography>
-      </Box>
+      <StatusCard
+        primary="There was a problem while fetching data"
+        type="error"
+        sx={{ height: "105px" }}
+      />
+    );
+  }
+
+  // Showing no data status card if no data available
+  if (
+    !(error || loading) &&
+    (expenses?.length === 0 || expenses === undefined)
+  ) {
+    return (
+      <StatusCard
+        primary="No data available for the selected period"
+        type="info"
+        sx={{ height: "105px" }}
+      />
     );
   }
 
@@ -69,17 +85,17 @@ const ExpenseList = ({ expenses, loading, sx }: IExpenseList) => {
           <div key={idx}>
             <ListItemButton onClick={() => handleClick(idx)} sx={{ pl: 0 }}>
               <ListItemAvatar>
-                <Avatar>{category.charAt(0).toUpperCase()}</Avatar>
+                <Avatar>{category?.charAt(0).toUpperCase()}</Avatar>
               </ListItemAvatar>
 
               {/* Category tooltip and name */}
               <Tooltip
                 title={
                   isMobile
-                    ? category.length > 10
+                    ? category?.length > 10
                       ? category
                       : ""
-                    : category.length > 35
+                    : category?.length > 35
                     ? category
                     : ""
                 }
@@ -106,10 +122,10 @@ const ExpenseList = ({ expenses, loading, sx }: IExpenseList) => {
                 <Tooltip
                   title={
                     isMobile
-                      ? message.length > 15
+                      ? message?.length > 15
                         ? message
                         : ""
-                      : message.length > 35
+                      : message?.length > 35
                       ? message
                       : ""
                   }

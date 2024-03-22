@@ -95,6 +95,7 @@ const SummaryBox = ({
 const Expenses = () => {
   const [fromDate, setFromDate] = useState(getDate(1, true));
   const [toDate, setToDate] = useState(getDate(1, true, true));
+  const [currPagPage, setCurrPagPage] = useState(1);
   const { isMobile } = useIsMobile();
   const { data: categoriesList } = useCategoriesData();
   const { data: expenseData, fetchData } = useExpenseListData();
@@ -119,12 +120,24 @@ const Expenses = () => {
     const { category } = getValues();
     setFromDate(from.format("DD/MM/YYYY"));
     setToDate(to.format("DD/MM/YYYY"));
+    setCurrPagPage(1);
     fetchData(
       1,
       from.format("MM/DD/YYYY"),
       to.format("MM/DD/YYYY"),
       category === "" ? null : category
     );
+  };
+
+  const handlePaginationPageChange = (newPage: number) => {
+    const { from, to, category } = getValues();
+    fetchData(
+      newPage,
+      from.format("MM/DD/YYYY"),
+      to.format("MM/DD/YYYY"),
+      category === "" ? null : category
+    );
+    setCurrPagPage(newPage);
   };
 
   return (
@@ -233,6 +246,8 @@ const Expenses = () => {
                 variant="outlined"
                 shape="rounded"
                 count={50}
+                page={currPagPage}
+                onChange={(_, newPage) => handlePaginationPageChange(newPage)}
                 siblingCount={isMobile ? 0 : 1}
               />
             </Stack>

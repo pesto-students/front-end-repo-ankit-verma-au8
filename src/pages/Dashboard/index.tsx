@@ -1,4 +1,4 @@
-import { Grid, Typography, CircularProgress } from "@mui/material";
+import { Grid, Box, Typography, CircularProgress } from "@mui/material";
 import ExpenseCategories from "./components/ExpenseCategories";
 import SpendingTrends from "./components/SpendingTrends";
 import LatestExpenses from "./components/LatestExpenses";
@@ -14,12 +14,15 @@ const Dashboard = () => {
       <Grid container spacing={5}>
         {/* Total Expense Box */}
         <Grid item xs={12} sm={4}>
-          <Typography color="text.main" variant="h5" sx={{ mb: 1 }}>
+          <Typography color="text.main" variant="h4" sx={{ mb: 1 }}>
             Total Expenses
           </Typography>
           <Card
             sx={{
+              display: "grid",
+              placeContent: "center",
               textAlign: "center",
+              height: "180px",
             }}
           >
             {loading && <CircularProgress />}
@@ -30,10 +33,18 @@ const Dashboard = () => {
               />
             )}
             {!(error || loading) && Object?.keys(data).length !== 0 && (
-              <Typography color="text.primary" variant="h6">
-                Total Expenses (this month)
-                <br /> ₹ {data?.totalAmount}
-              </Typography>
+              <Box>
+                <Typography color="text.primary" variant="h5" sx={{ mb: 1.5 }}>
+                  Total Expenses (this month)
+                </Typography>
+                <Typography
+                  color="text.primary"
+                  variant="h5"
+                  sx={{ fontWeight: 800 }}
+                >
+                  ₹ {data?.totalAmount}
+                </Typography>
+              </Box>
             )}
           </Card>
         </Grid>

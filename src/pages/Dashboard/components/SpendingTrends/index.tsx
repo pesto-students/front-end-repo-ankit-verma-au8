@@ -5,13 +5,6 @@ import PeriodSwitcher from "../PeriodSwitcher";
 // import useTrendsData from "@/hooks/dashboard/useTrendsData";
 import Card from "@/components/Card";
 
-// const Container = styled(Box)(({ theme }) => ({
-//   // backgroundColor: "bisque",
-//   ...theme.typography.body2,
-//   padding: `${theme.spacing(2)}}`,
-//   color: theme.palette.text.secondary,
-// }));
-
 const HeaderContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",

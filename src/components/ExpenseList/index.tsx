@@ -16,18 +16,19 @@ import { truncateMessage } from "@/utils";
 import useIsMobile from "@/hooks/common/useIsMobile";
 
 interface IExpenseItem {
-  category: string;
-  message: string;
-  expense: number;
-  date: string;
+  categoryName: string;
+  textMessage: string;
+  amount: number;
+  createdAt: string;
 }
 
 interface IExpenseList {
-  expenses: IExpenseItem[];
+  expenses: IExpenseItem[] | null;
   loading?: boolean;
+  sx?: object;
 }
 
-const ExpenseList = ({ expenses, loading }: IExpenseList) => {
+const ExpenseList = ({ expenses, loading, sx }: IExpenseList) => {
   const [openItems, setOpenItems] = useState<number[]>([]);
   const { isMobile } = useIsMobile();
   const handleClick = (idx: number): void => {
@@ -44,7 +45,7 @@ const ExpenseList = ({ expenses, loading }: IExpenseList) => {
   }
 
   // Showing a message if an empty array is supplied as data
-  if (expenses.length === 0) {
+  if (expenses?.length === 0) {
     return (
       <Box>
         <ErrorIcon color="info" fontSize="large" sx={{ fontSize: 60, mb: 1 }} />
@@ -54,9 +55,17 @@ const ExpenseList = ({ expenses, loading }: IExpenseList) => {
   }
 
   return (
-    <List sx={{}}>
-      {expenses.map(
-        ({ category, message, date, expense }: IExpenseItem, idx) => (
+    <List sx={{ border: "1px solid red", ...sx }}>
+      {expenses?.map(
+        (
+          {
+            categoryName: category,
+            textMessage: message,
+            createdAt,
+            amount,
+          }: IExpenseItem,
+          idx
+        ) => (
           <div key={idx}>
             <ListItemButton onClick={() => handleClick(idx)} sx={{ pl: 0 }}>
               <ListItemAvatar>
@@ -84,7 +93,7 @@ const ExpenseList = ({ expenses, loading }: IExpenseList) => {
                 />
               </Tooltip>
 
-              <Typography>₹ {expense}</Typography>
+              <Typography>₹ {amount}</Typography>
             </ListItemButton>
             <Collapse
               in={openItems.includes(idx)}
@@ -115,7 +124,10 @@ const ExpenseList = ({ expenses, loading }: IExpenseList) => {
                   />
                 </Tooltip>
 
-                <ListItemText secondary={date} sx={{ textAlign: "right" }} />
+                <ListItemText
+                  secondary={createdAt}
+                  sx={{ textAlign: "right" }}
+                />
               </Box>
             </Collapse>
           </div>

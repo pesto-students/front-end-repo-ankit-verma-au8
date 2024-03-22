@@ -2,7 +2,7 @@ import { Box, Typography, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PieChart from "@/components/PieChart";
 import MonthSwitcher from "../MonthSwitcher";
-import useCategoriesData from "@/hooks/dashboard/useCategoriesData";
+import useExpenseCategoriesData from "@/hooks/dashboard/useExpenseCategoriesData";
 import Card from "@/components/Card";
 import StatusCard from "@/components/StatusCard";
 
@@ -21,7 +21,7 @@ const ChartContainer = styled(Box)(() => ({
 }));
 
 const ExpenseCategories = () => {
-  const { data, loading, error, fetchData } = useCategoriesData();
+  const { data, loading, error, fetchData } = useExpenseCategoriesData();
   return (
     <Card
       sx={{

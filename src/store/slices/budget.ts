@@ -2,12 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllBudgets } from "@/api/features/budget";
 import { getAllExpenseCategories } from "@/api";
-import { Budget } from "@/types";
-
-interface Category {
-  id: string;
-  name: string;
-}
+import { Budget, Category } from "@/types";
 
 interface BudgetState {
   budgets: {

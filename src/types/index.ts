@@ -24,3 +24,8 @@ export interface Budget {
   totalExpense: string;
   userId: number;
 }
+
+export interface Category {
+  id: string;
+  name: string;
+}

@@ -26,7 +26,9 @@ export const getMonthYear = (date: Date): string => {
  * @returns {string} The truncated string
  */
 export const truncateMessage = (text: string, maxLength = 30) => {
-  return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+  return text?.length > maxLength
+    ? `${text?.substring(0, maxLength)}...`
+    : text;
 };
 
 /**

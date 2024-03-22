@@ -21,17 +21,20 @@ export const getExpenseCategories = async (month: number, year: number) => {
 };
 
 export const getExpenseList = async (
-  userId: number,
-  limit: number,
   page: number,
-  categoryId: number,
-  from: number,
-  to: number
+  from: string,
+  to: string,
+  categoryId: number | null,
+  limit: number | null = 20
 ) => {
-  //   const queryString = buildQueryString({page, limit});
-
-  const { data } = await axiosInstance.get(`${USER_ENDPOINT}/list`, {
-    params: { userId, limit, page, categoryId, from, to },
+  const { data } = await axiosInstance.get(`${USER_ENDPOINT}s/list`, {
+    params: {
+      limit,
+      page,
+      categoryId,
+      from: new Date(from).toISOString(),
+      to: new Date(to).toISOString(),
+    },
   });
   return data;
 };

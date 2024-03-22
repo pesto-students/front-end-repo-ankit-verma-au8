@@ -17,7 +17,7 @@ interface Accumulator {
   data: number[];
 }
 
-const useCategoriesData = (): HookReturnData => {
+const useExpenseCategoriesData = (): HookReturnData => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const { data, loading, error, success } = useSelector(
@@ -60,4 +60,4 @@ const useCategoriesData = (): HookReturnData => {
   };
 };
 
-export default useCategoriesData;
+export default useExpenseCategoriesData;

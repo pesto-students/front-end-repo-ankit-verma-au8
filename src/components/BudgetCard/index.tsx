@@ -10,50 +10,13 @@ import {
 } from "@mui/material";
 import Card from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import LinearProgress, {
-  linearProgressClasses,
-  LinearProgressProps,
-} from "@mui/material/LinearProgress";
 import { green, red } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import { FC, useState } from "react";
 import { updateBudget } from "@/api/features/budget";
 import BudgetDialog from "../BudgetDialog";
-
-interface CustomLinearProgressProps extends LinearProgressProps {
-  customcolor?: string;
-}
-
-function getExpenseColor(expense: number, limit: number) {
-  const ratio = (expense / limit) * 100;
-
-  if (ratio < 50) {
-    return "#007500";
-  } else if (ratio >= 50 && ratio <= 90) {
-    return "#FAD02C";
-  } else {
-    return "#D22B2B";
-  }
-}
-
-const BorderLinearProgress = styled(LinearProgress)<CustomLinearProgressProps>(
-  ({ theme, customcolor }) => ({
-    height: 12,
-    borderRadius: 8,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor:
-        theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-      borderRadius: 5,
-      backgroundColor: customcolor
-        ? customcolor
-        : theme.palette.mode === "light"
-        ? "#B52222"
-        : "#308fe8",
-    },
-  })
-);
+import BorderLinearProgress from "@/components/BorderLinearProgress";
+import { getPercentageColor } from "@/utils";
 
 const RedSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -145,7 +108,7 @@ const BudgetCard: FC<BudgetCardProps> = ({
             <BorderLinearProgress
               variant="determinate"
               value={expensePercentage > 100 ? 100 : expensePercentage}
-              customcolor={getExpenseColor(
+              customcolor={getPercentageColor(
                 Number(totalExpense),
                 Number(amount)
               )}

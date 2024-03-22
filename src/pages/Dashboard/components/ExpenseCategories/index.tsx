@@ -18,7 +18,6 @@ const ChartContainer = styled(Box)(() => ({
   alignItems: "center",
   justifyContent: "center",
   height: "90%",
-  border: "1px solid black",
 }));
 
 const ExpenseCategories = () => {

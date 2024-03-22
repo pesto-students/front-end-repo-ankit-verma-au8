@@ -22,8 +22,8 @@ export const getExpenseCategories = async (month: number, year: number) => {
 
 export const getExpenseList = async (
   page: number,
-  from: string,
-  to: string,
+  from: string | null,
+  to: string | null,
   categoryId: number | null,
   limit: number | null = 20
 ) => {
@@ -32,8 +32,8 @@ export const getExpenseList = async (
       limit,
       page,
       categoryId,
-      from: new Date(from).toISOString(),
-      to: new Date(to).toISOString(),
+      ...(from && { from: new Date(from).toISOString() }),
+      ...(to && { to: new Date(to).toISOString() }),
     },
   });
   return data;

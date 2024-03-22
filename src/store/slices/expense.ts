@@ -20,18 +20,16 @@ interface IExpenseState {
     loading: boolean;
   };
   list: {
-    data:
-      | {
-          data: {
-            amount: string;
-            categoryName: string;
-            createdAt: string;
-            id: number;
-            textMessage: string;
-          }[];
-          totalCount: number;
-        }
-      | [];
+    data: {
+      data: {
+        amount: string;
+        categoryName: string;
+        createdAt: string;
+        id: number;
+        textMessage: string;
+      }[];
+      totalCount: number;
+    };
     error: any;
     success: boolean;
     loading: boolean;
@@ -59,7 +57,7 @@ const initialState: IExpenseState = {
     loading: false,
   },
   list: {
-    data: [],
+    data: { data: [], totalCount: 0 },
     error: false,
     success: false,
     loading: false,
@@ -115,14 +113,14 @@ const fetchListData = createAsyncThunk(
   async (
     {
       page,
-      from,
-      to,
+      from = null,
+      to = null,
       categoryId = null,
       limit,
     }: {
       page: number;
-      from: string;
-      to: string;
+      from: string | null;
+      to: string | null;
       categoryId: number | null;
       limit?: number | null;
     },

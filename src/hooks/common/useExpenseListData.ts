@@ -40,8 +40,8 @@ const useExpenseListData = (): HookReturnData => {
 
   const getExpenseListData = (
     page: number,
-    from: string,
-    to: string,
+    from: string | null,
+    to: string | null,
     categoryId: number | null,
     limit: number | null = 10
   ) => {

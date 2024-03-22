@@ -85,7 +85,11 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
           <div key={idx}>
             <ListItemButton onClick={() => handleClick(idx)} sx={{ pl: 0 }}>
               <ListItemAvatar>
-                <Avatar>{category?.charAt(0).toUpperCase()}</Avatar>
+                <Avatar>
+                  <Typography variant="h6">
+                    {category?.charAt(0).toUpperCase()}
+                  </Typography>
+                </Avatar>
               </ListItemAvatar>
 
               {/* Category tooltip and name */}
@@ -101,6 +105,9 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
                 }
               >
                 <ListItemText
+                  primaryTypographyProps={{
+                    variant: "h6",
+                  }}
                   primary={
                     isMobile
                       ? truncateMessage(category, 10)
@@ -109,7 +116,7 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
                 />
               </Tooltip>
 
-              <Typography>₹ {amount}</Typography>
+              <Typography variant="h6">₹ {amount}</Typography>
             </ListItemButton>
             <Collapse
               in={openItems.includes(idx)}
@@ -131,6 +138,9 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
                   }
                 >
                   <ListItemText
+                    secondaryTypographyProps={{
+                      variant: "body1",
+                    }}
                     secondary={
                       isMobile
                         ? truncateMessage(message, 15)
@@ -141,6 +151,9 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
                 </Tooltip>
 
                 <ListItemText
+                  secondaryTypographyProps={{
+                    variant: "body1",
+                  }}
                   secondary={createdAt}
                   sx={{ textAlign: "right" }}
                 />

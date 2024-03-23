@@ -36,4 +36,4 @@ export const APP_INSTRUCTIONS: AppInstructionTypes[] = [
     description:
       "Simply message your expenses to that number and we'll handle the rest!",
   },
-];
+]

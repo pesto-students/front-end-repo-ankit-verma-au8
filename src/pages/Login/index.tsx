@@ -6,6 +6,7 @@ import {
   CircularProgress,
   Box,
   Typography,
+  Link,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -117,6 +118,15 @@ const Login = () => {
         >
           {!loading ? "Login" : <CircularProgress color="inherit" size={20} />}
         </Button>
+        <Box>
+          <Link
+            href="/signup"
+            variant="body2"
+            // onClick={() => navigate("/signup")}
+          >
+            Don't have an account? Sign Up
+          </Link>
+        </Box>
         {error && (
           <Typography color="error" variant="subtitle2">
             {error}

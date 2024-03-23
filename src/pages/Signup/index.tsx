@@ -5,6 +5,7 @@ import {
   CircularProgress,
   Box,
   Typography,
+  Link,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -165,13 +166,28 @@ const SignupForm = () => {
           error={!!errors.confirmPassword}
           helperText={errors?.confirmPassword?.message ?? " "}
         />
-        <Button variant="contained" type="submit" disabled={loading} fullWidth>
+        <Button
+          variant="contained"
+          type="submit"
+          disabled={loading}
+          fullWidth
+          sx={{ mb: 1 }}
+        >
           {!loading ? (
             "Sign up"
           ) : (
             <CircularProgress color="inherit" size={20} />
           )}
         </Button>
+        <Box>
+          <Link
+            href="/login"
+            variant="body2"
+            // onClick={() => navigate("/signup")}
+          >
+            Already have an account? Sign in
+          </Link>
+        </Box>
         {error && (
           <Typography color="error" variant="subtitle2">
             {error}

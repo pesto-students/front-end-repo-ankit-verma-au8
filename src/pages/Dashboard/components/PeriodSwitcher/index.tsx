@@ -81,7 +81,6 @@ const PeriodSwitcher = ({ updateChartData }: PeriodSwitcherProps) => {
   const { isMobile } = useIsMobile();
 
   const handlePeriodChange = (_: any, newPeriod: string) => {
-    console.log;
     updateChartData(newPeriod.toLowerCase());
     setPeriod(newPeriod);
   };

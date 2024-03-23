@@ -47,7 +47,7 @@ const LandingPage = () => {
                     sx={{
                       "& .Mui-active": {
                         "& .MuiStepIcon-root": {
-                          color: "#cc9e05",
+                          color: "#ff7a00",
                           "& .MuiStepIcon-text": { fontSize: "15px" },
                         },
                       },

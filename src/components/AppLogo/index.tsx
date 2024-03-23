@@ -9,7 +9,6 @@ const AppLogo = ({
   width: any;
   rest?: any;
 }) => {
-  console.log("height and with in ", height, width);
   return (
     <img
       src={logo}

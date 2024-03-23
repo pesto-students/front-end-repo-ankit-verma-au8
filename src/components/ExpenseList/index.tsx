@@ -51,7 +51,8 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
       <StatusCard
         primary="There was a problem while fetching data"
         type="error"
-        sx={{ height: "105px" }}
+        primaryStyle={{ textAlign: "center" }}
+        secondaryStyle={{ height: "105px" }}
       />
     );
   }
@@ -65,7 +66,8 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
       <StatusCard
         primary="No data available for the selected period"
         type="info"
-        sx={{ height: "105px" }}
+        primaryStyle={{ textAlign: "center" }}
+        secondaryStyle={{ height: "105px" }}
       />
     );
   }

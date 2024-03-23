@@ -4,18 +4,20 @@ import ErrorIcon from "@mui/icons-material/Error";
 const StatusCard = ({
   primary,
   type,
-  sx,
+  primaryStyle,
+  secondaryStyle,
 }: {
   primary: string;
   type: any;
-  sx?: object;
+  primaryStyle?: object;
+  secondaryStyle?: object;
 }) => {
   return (
-    <Box>
+    <Box sx={{ ...primaryStyle }}>
       <ErrorIcon
         color={type}
         fontSize="large"
-        sx={{ ...sx, fontSize: 60, mb: 1 }}
+        sx={{ ...secondaryStyle, fontSize: 60, mb: 1 }}
       />
       <Typography variant="h6">{primary}</Typography>
     </Box>

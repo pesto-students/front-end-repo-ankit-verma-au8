@@ -13,9 +13,21 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
+const ChartContainer = styled(Box)(() => ({
+  // display: "flex",
+  // alignItems: "center",
+  // justifyContent: "center",
+  // height: "90%",
+  // width: "100%",
+}));
+
 const SpendingTrends = () => {
   const { data, loading, error, fetchData } = useTrendsData();
   console.log("IN bar COMPONENT", data);
+
+  const doesDataExist = () => {
+    return data?.some((item) => item.data.length > 0);
+  };
 
   return (
     <Card>
@@ -25,20 +37,28 @@ const SpendingTrends = () => {
         </Typography>
         <PeriodSwitcher updateChartData={fetchData} />
       </HeaderContainer>
-      {loading && <CircularProgress />}
-      {error && (
-        <StatusCard
-          primary="There was a problem while fetching data"
-          type="error"
-        />
-      )}
-      {!(error || loading) && data?.length === 0 && (
-        <StatusCard
-          primary="No data available for the selected period"
-          type="info"
-        />
-      )}
-      <BarChart data={data} />
+      <ChartContainer>
+        {loading && <CircularProgress />}
+        {error && (
+          <Card sx={{ textAlign: "center" }}>
+            <StatusCard
+              primary="There was a problem while fetching data"
+              type="error"
+              primaryStyle={{ textAlign: "center" }}
+              secondaryStyle={{ height: "80px" }}
+            />
+          </Card>
+        )}
+        {!(error || loading) && !doesDataExist() && (
+          <StatusCard
+            primary="No data available for the selected period"
+            type="info"
+            primaryStyle={{ textAlign: "center" }}
+            secondaryStyle={{ height: "80px" }}
+          />
+        )}
+        {!(error || loading) && doesDataExist() && <BarChart data={data} />}
+      </ChartContainer>
     </Card>
   );
 };

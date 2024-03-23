@@ -7,6 +7,7 @@ import {
   Box,
   Typography,
   Link,
+  Divider,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -44,6 +45,17 @@ const Login = () => {
 
   const onSubmit = (userData: FormValues) => {
     dispatch(loginUser({ ...userData, role: "user" }));
+  };
+
+  const handleGuestLogin = () => {
+    dispatch(
+      loginUser({
+        phoneNumber: import.meta.env.VITE_GUEST_CRENDENTIALS_LOGIN_ID,
+        password: import.meta.env.VITE_GUEST_CRENDENTIALS_PASSWORD,
+        staySignedIn: false,
+        role: "user",
+      })
+    );
   };
 
   useEffect(() => {
@@ -129,6 +141,20 @@ const Login = () => {
           </Typography>
         )}
       </Box>
+      <Divider sx={{ width: "100%", alignItems: "center", margin: "20px 0" }}>
+        <Typography color="text.main" variant="h6">
+          OR
+        </Typography>
+      </Divider>
+      <Button
+        fullWidth
+        variant="outlined"
+        type="submit"
+        sx={{ my: 1 }}
+        onClick={handleGuestLogin}
+      >
+        Login as Guest
+      </Button>
     </Box>
   );
 };

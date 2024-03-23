@@ -107,3 +107,14 @@ export const getPercentageColor = (value: number, maxValue: number) => {
     return "#D22B2B";
   }
 };
+
+/**
+ * Returns the capitalized version of a text
+ * based on the calculated percentage
+ *
+ * @param {string} text The text to capitalize
+ * @returns {string} The capitalized text
+ */
+export const getCapitalizedText = (text: string) => {
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+};

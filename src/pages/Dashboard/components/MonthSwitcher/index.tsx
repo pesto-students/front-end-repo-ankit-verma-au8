@@ -64,6 +64,9 @@ const MonthSwitcher = ({ updateChartData }: MonthSwitcherProps) => {
         sx={{
           borderRadius: 1,
         }}
+        disabled={
+          date instanceof Date && date.getMonth() === new Date().getMonth()
+        }
         onClick={handleNextClick}
       >
         <ChevronRight fontSize="small" />

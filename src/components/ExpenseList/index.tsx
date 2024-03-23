@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   List,
   ListItemAvatar,
@@ -10,7 +11,7 @@ import {
   Tooltip,
   CircularProgress,
 } from "@mui/material";
-import { useState } from "react";
+import { styled } from "@mui/material/styles";
 import { truncateMessage } from "@/utils";
 import useIsMobile from "@/hooks/common/useIsMobile";
 import StatusCard from "@/components/StatusCard";
@@ -28,6 +29,11 @@ interface IExpenseList {
   sx?: object;
   error?: boolean;
 }
+
+const StyledList = styled(List)(() => ({
+  overflowY: "auto",
+  maxHeight: "600px",
+}));
 
 const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
   const [openItems, setOpenItems] = useState<number[]>([]);
@@ -73,7 +79,7 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
   }
 
   return (
-    <List sx={{ border: "1px solid red", ...sx }}>
+    <StyledList sx={{ ...sx }}>
       {expenses?.map(
         (
           {
@@ -164,7 +170,7 @@ const ExpenseList = ({ expenses, error, loading, sx }: IExpenseList) => {
           </div>
         )
       )}
-    </List>
+    </StyledList>
   );
 };
 

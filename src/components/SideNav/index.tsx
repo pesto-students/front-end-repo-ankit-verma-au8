@@ -87,7 +87,25 @@ const SideNav = ({ open, toggleDrawer }: Props) => {
     setSelectedTab(value);
     navigate(`/${value}`);
   };
-
+  const styles = {
+    "& .MuiDrawer-paper": {
+      backgroundColor: "background.sideNav",
+      color: "text.sideNav",
+      fill: "text.sideNav",
+      "& .MuiIconButton-root": {
+        color: "text.sideNav",
+      },
+      "& .Mui-selected": {
+        backgroundColor: "background.sideNavSelected",
+      },
+      "& .MuiListItemIcon-root": {
+        color: "text.sideNav",
+      },
+      "& .MuiDivider-root": {
+        backgroundColor: "text.sideNav",
+      },
+    },
+  };
   const DrawerContent = (
     <>
       <DrawerHeader>
@@ -139,11 +157,12 @@ const SideNav = ({ open, toggleDrawer }: Props) => {
           ModalProps={{
             keepMounted: true,
           }}
+          sx={styles}
         >
           {DrawerContent}
         </Drawer>
       ) : (
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={open} sx={styles}>
           {DrawerContent}
         </Drawer>
       )}

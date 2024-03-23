@@ -14,7 +14,7 @@ const Dashboard = () => {
       <Grid container spacing={5}>
         {/* Total Expense Box */}
         <Grid item xs={12} sm={4}>
-          <Typography color="text.main" variant="h4" sx={{ mb: 1 }}>
+          <Typography color="text.main" variant="h5" sx={{ mb: 1 }}>
             Total Expenses
           </Typography>
           <Card

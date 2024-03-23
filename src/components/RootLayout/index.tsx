@@ -25,7 +25,6 @@ const RootLayout = () => {
           sx={{
             backgroundColor: "background.main",
             padding: "10px 10px",
-            border: "1px solid red",
             display: "grid",
             alignItems: "start",
             height: isMobile ? "100%" : "100vmax",

@@ -1,0 +1,78 @@
+name: Production CI/CD
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  VITE_BACKEND_BASE_URL: ${{ secrets.VITE_BACKEND_BASE_URL }}
+  VITE_GUEST_CRENDENTIALS_LOGIN_ID: ${{ secrets.VITE_GUEST_CRENDENTIALS_LOGIN_ID }}
+  VITE_GUEST_CRENDENTIALS_PASSWORD: ${{ secrets.VITE_GUEST_CRENDENTIALS_PASSWORD }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      - name: Clean install dependencies
+        run: npm ci
+
+      - name: Build App
+        run: npm run build --if-present
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Clean install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test --if-present
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    needs:
+      - build
+      - test
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      - name: Clean install dependencies
+        run: npm ci
+
+      - name: Build App
+        run: npm run build --if-present
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2.1.0
+        with:
+          publish-dir: "./dist"
+          production-branch: master
+
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          
+        timeout-minutes: 1

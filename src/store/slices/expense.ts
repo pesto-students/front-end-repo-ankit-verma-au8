@@ -1,9 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getExpenseTrends, getExpenseCategories, getExpenseList } from "@/api";
+import {
+  getExpenseTrends,
+  getExpenseCategories,
+  getExpenseList,
+  getTotalExpense,
+} from "@/api";
 
 interface IExpenseState {
   trends: {
-    data: null | object[] | [];
+    data: {
+      data: [];
+      startDate: string;
+      endDate: string;
+    }[];
     error: any;
     success: boolean;
     loading: boolean;
@@ -15,16 +24,36 @@ interface IExpenseState {
     loading: boolean;
   };
   list: {
-    data: null | object[] | [];
+    data: {
+      data: {
+        amount: string;
+        categoryName: string;
+        createdAt: string;
+        id: number;
+        textMessage: string;
+      }[];
+      totalCount: number;
+    };
     error: any;
     success: boolean;
     loading: boolean;
   };
+  total: {
+    data: {
+      month: string;
+      year: string;
+      totalAmount: number;
+    } | null;
+    error: any;
+    success: boolean;
+    loading: boolean;
+  };
+  top?: any;
 }
 
 const initialState: IExpenseState = {
   trends: {
-    data: null,
+    data: [],
     error: false,
     success: false,
     loading: false,
@@ -36,6 +65,12 @@ const initialState: IExpenseState = {
     loading: false,
   },
   list: {
+    data: { data: [], totalCount: 0 },
+    error: false,
+    success: false,
+    loading: false,
+  },
+  total: {
     data: null,
     error: false,
     success: false,
@@ -45,12 +80,9 @@ const initialState: IExpenseState = {
 
 const fetchTrendsData = createAsyncThunk(
   "expense/fetchTrendsData",
-  async (
-    { limit, page }: { limit: number; page: number },
-    { rejectWithValue }
-  ) => {
+  async ({ interval }: { interval: string }, { rejectWithValue }) => {
     try {
-      const data = await getExpenseTrends(page, limit);
+      const data = await getExpenseTrends(interval);
       return data;
     } catch (err: any) {
       if (!err.response) {
@@ -85,31 +117,47 @@ const fetchListData = createAsyncThunk(
   "expense/fetchListData",
   async (
     {
-      userId,
-      limit,
       page,
-      categoryId,
-      from,
-      to,
+      from = null,
+      to = null,
+      categoryId = null,
+      limit,
     }: {
-      userId: number;
-      limit: number;
       page: number;
-      categoryId: number;
-      from: number;
-      to: number;
+      from: string | null;
+      to: string | null;
+      categoryId: number | null;
+      limit?: number | null;
     },
     { rejectWithValue }
   ) => {
     try {
-      const data = await getExpenseList(
-        userId,
-        limit,
-        page,
-        categoryId,
-        from,
-        to
-      );
+      const data = await getExpenseList(page, from, to, categoryId, limit);
+      return data;
+    } catch (err: any) {
+      if (!err.response) {
+        throw err;
+      }
+
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+const fetchTotalExpenseData = createAsyncThunk(
+  "expense/fetchTotalExpenseData",
+  async (
+    {
+      month,
+      year,
+    }: {
+      month: number;
+      year: number;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const data = await getTotalExpense(month, year);
       return data;
     } catch (err: any) {
       if (!err.response) {
@@ -136,9 +184,8 @@ const expenseSlice = createSlice({
         state.trends.error = false;
         state.trends.success = false;
       })
-      .addCase(fetchTrendsData.fulfilled, (state) => {
-        // console.log("TRENDFETCHED", action);
-        // state.trends.data = action.payload;
+      .addCase(fetchTrendsData.fulfilled, (state, action) => {
+        state.trends.data = action.payload;
 
         state.trends.loading = false;
         state.trends.error = false;
@@ -176,9 +223,9 @@ const expenseSlice = createSlice({
         state.list.error = false;
         state.list.success = false;
       })
-      .addCase(fetchListData.fulfilled, (state) => {
+      .addCase(fetchListData.fulfilled, (state, action) => {
         // console.log("LISTFETCHED", action);
-        // state.trends.data = action.payload;
+        state.list.data = action.payload;
 
         state.list.loading = false;
         state.list.error = false;
@@ -189,9 +236,33 @@ const expenseSlice = createSlice({
         state.list.error = action.payload;
         state.list.success = false;
       });
+
+    builder
+      .addCase(fetchTotalExpenseData.pending, (state) => {
+        state.total.loading = true;
+        state.total.error = false;
+        state.total.success = false;
+      })
+      .addCase(fetchTotalExpenseData.fulfilled, (state, action) => {
+        state.total.data = action.payload.totalExpense[0];
+
+        state.total.loading = false;
+        state.total.error = false;
+        state.total.success = true;
+      })
+      .addCase(fetchTotalExpenseData.rejected, (state, action) => {
+        state.total.loading = false;
+        state.total.error = action.payload;
+        state.total.success = false;
+      });
   },
 });
 
-export { fetchTrendsData, fetchCategoriesData, fetchListData };
+export {
+  fetchTrendsData,
+  fetchCategoriesData,
+  fetchListData,
+  fetchTotalExpenseData,
+};
 
 export default expenseSlice.reducer;

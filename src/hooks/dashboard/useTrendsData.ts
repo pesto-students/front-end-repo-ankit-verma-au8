@@ -10,14 +10,12 @@ const useTrendsData = () => {
     (state: RootState) => state.expense.trends
   );
 
-  const getTrendsData = () => {
-    dispatch(fetchTrendsData({ limit: 8, page: 1 }));
+  const getTrendsData = (interval: string) => {
+    dispatch(fetchTrendsData({ interval }));
   };
-  console.log("IN trends CUSTOM NOW");
 
   useEffect(() => {
-    console.log("IN useeffect of CUSTOM hook bars");
-    getTrendsData();
+    getTrendsData("daily");
   }, []);
 
   return {

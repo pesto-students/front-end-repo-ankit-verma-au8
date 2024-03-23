@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import {
   Grid,
@@ -9,6 +9,8 @@ import {
   Button,
   Divider,
   Tooltip,
+  Stack,
+  Pagination,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Select from "@mui/material/Select";
@@ -19,6 +21,8 @@ import ExpenseList from "@/components/ExpenseList";
 import { useForm, Controller } from "react-hook-form";
 import { getDate, truncateMessage } from "@/utils";
 import useIsMobile from "@/hooks/common/useIsMobile";
+import useCategoriesData from "@/hooks/expenses/useCategoriesData";
+import useExpenseListData from "@/hooks/common/useExpenseListData";
 
 const GridBox = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -47,8 +51,8 @@ const SummaryBox = ({
   isCurrency?: boolean;
 }) => {
   let summaryValue = isCurrency
-    ? `₹ ${values[1].toLocaleString("en-IN")}`
-    : values[1].toLocaleString("en-IN");
+    ? `₹ ${values[1]?.toLocaleString("en-IN")}`
+    : values[1]?.toLocaleString("en-IN");
   return (
     <Box>
       {/* Summary type */}
@@ -65,10 +69,10 @@ const SummaryBox = ({
       <Tooltip
         title={
           isMobile
-            ? summaryValue.toString().length > 6
+            ? summaryValue?.toString().length > 6
               ? summaryValue
               : ""
-            : values[1].toString().length > 10
+            : values[1]?.toString().length > 10
             ? summaryValue
             : ""
         }
@@ -91,95 +95,53 @@ const SummaryBox = ({
 const Expenses = () => {
   const [fromDate, setFromDate] = useState(getDate(1, true));
   const [toDate, setToDate] = useState(getDate(1, true, true));
+  const [currPagPage, setCurrPagPage] = useState(1);
   const { isMobile } = useIsMobile();
+  const { data: categoriesList } = useCategoriesData();
+  const { data: expenseData, error, loading, fetchData } = useExpenseListData();
   const {
     // register,
     control,
     handleSubmit,
     // watch,
-    // getValues,
+    getValues,
     reset: resetForm,
     // formState: { errors },
   } = useForm({
     defaultValues: {
-      category: 10,
+      category: "",
       from: dayjs(getDate(1)),
       to: dayjs(getDate(1, false, true)),
     },
   });
-  const expenseList = useRef([
-    {
-      category: "Utility",
-      message: "Spent 1000 on bills",
-      expense: 1000,
-      date: "31/1/24",
-    },
-    {
-      category:
-        "UtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtility",
-      message:
-        "Spent 2000 on floor repairSpent 2000 on floor repairSpent 2000 on floor repairSpent 2000 on floor repair",
-      expense: 2000,
-      date: "29/1/24",
-    },
-    {
-      category: "Utility",
-      message: "Spent 1000 on bills",
-      expense: 1000,
-      date: "27/1/24",
-    },
-    {
-      category: "Utility",
-      message: "Spent 1000 on bills",
-      expense: 1000,
-      date: "25/1/24",
-    },
-    {
-      category: "Utility",
-      message: "Spent 2000 on floor repair",
-      expense: 2000,
-      date: "23/1/24",
-    },
-    {
-      category: "Utility",
-      message: "Spent 1000 on bills",
-      expense: 1000,
-      date: "21/1/24",
-    },
-    {
-      category: "Utility",
-      message: "Spent 1000 on bills",
-      expense: 1000,
-      date: "19/1/24",
-    },
-    {
-      category: "Utility",
-      message: "Spent 2000 on floor repair",
-      expense: 2000,
-      date: "17/1/24",
-    },
-    {
-      category: "Utility",
-      message: "Spent 1000 on bills",
-      expense: 1000,
-      date: "15/1/24",
-    },
-    {
-      category: "Utility",
-      message: "Spent 2000 on floor repair",
-      expense: 2000,
-      date: "13/1/24",
-    },
-  ]);
 
   const onSubmit = (userData: any) => {
     const { from, to } = userData;
+    const { category } = getValues();
     setFromDate(from.format("DD/MM/YYYY"));
     setToDate(to.format("DD/MM/YYYY"));
+    setCurrPagPage(1);
+    fetchData(
+      1,
+      from.format("MM/DD/YYYY"),
+      to.format("MM/DD/YYYY"),
+      category === "" ? null : category
+    );
+  };
+
+  const handlePaginationPageChange = (newPage: number) => {
+    const { from, to, category } = getValues();
+    fetchData(
+      newPage,
+      from.format("MM/DD/YYYY"),
+      to.format("MM/DD/YYYY"),
+      category === "" ? null : category
+    );
+    setCurrPagPage(newPage);
   };
 
   return (
-    <Grid container spacing={5} sx={{ p: 2 }}>
+    <Grid container spacing={5} sx={{ pt: 2 }}>
       {/* Search Expenses Box */}
       <Grid item xs={12} sm={5}>
         <GridBox>
@@ -202,9 +164,11 @@ const Expenses = () => {
                     sx={{ textAlign: "start" }}
                     {...field}
                   >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {categoriesList?.map(({ id, name }) => (
+                      <MenuItem key={id} value={id}>
+                        {name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 )}
               />
@@ -249,7 +213,7 @@ const Expenses = () => {
 
       <Grid item xs={12} sm={7}>
         <GridBox>
-          <Card sx={{ borderRadius: 2 }}>
+          <Card sx={{ borderRadius: 2, minHeight: "105px" }}>
             <Typography color="text.main" variant="h5" sx={{ mb: 3 }}>
               {`${fromDate} - ${toDate}`}
             </Typography>
@@ -257,21 +221,40 @@ const Expenses = () => {
             <Box
               sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
             >
-              <SummaryBox isMobile={isMobile} values={["Transactions", 23]} />
               <SummaryBox
                 isMobile={isMobile}
-                values={["Total", 23000000000]}
+                values={["Transactions", expenseData?.totalCount]}
+              />
+              <SummaryBox
+                isMobile={isMobile}
+                values={["Total", expenseData?.totalExpense]}
                 isCurrency={true}
               />
             </Box>
             <Divider />
 
             <ExpenseList
-              // loading={true}
-              expenses={expenseList.current}
+              loading={loading}
+              expenses={expenseData?.data}
+              error={error}
               // expenses={[]}
+              sx={{ mb: 2 }}
             />
-            {/* )} */}
+            {expenseData?.data && expenseData?.data?.length !== 0 && (
+              <Stack spacing={2} sx={{ alignItems: "center" }}>
+                <Pagination
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                  count={Math.ceil(
+                    expenseData?.totalCount / expenseData?.data.length
+                  )}
+                  page={currPagPage}
+                  onChange={(_, newPage) => handlePaginationPageChange(newPage)}
+                  siblingCount={isMobile ? 0 : 1}
+                />
+              </Stack>
+            )}
           </Card>
         </GridBox>
       </Grid>

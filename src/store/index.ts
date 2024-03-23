@@ -20,5 +20,6 @@ export type Store = typeof store;
 export * from "./slices/user";
 export * from "./slices/auth";
 export * from "./slices/expense";
+export * from "./slices/budget";
 
 export default store;

@@ -26,7 +26,9 @@ export const getMonthYear = (date: Date): string => {
  * @returns {string} The truncated string
  */
 export const truncateMessage = (text: string, maxLength = 30) => {
-  return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+  return text?.length > maxLength
+    ? `${text?.substring(0, maxLength)}...`
+    : text;
 };
 
 /**
@@ -83,5 +85,25 @@ export const setCookie = (
     document.cookie = `${key}=${value}; max-age=86400; samesite=lax;`;
   } else {
     document.cookie = `${key}=; max-age=0;`;
+  }
+};
+
+/**
+ * Calculates and returns a HEX color code
+ * based on the calculated percentage
+ *
+ * @param {number} value The cookie's name
+ * @param {number} maxValue The cookie's value
+ * @returns {string} A color code in HEX format
+ */
+export const getPercentageColor = (value: number, maxValue: number) => {
+  const ratio = (value / maxValue) * 100;
+
+  if (ratio < 50) {
+    return "#007500";
+  } else if (ratio >= 50 && ratio <= 90) {
+    return "#FAD02C";
+  } else {
+    return "#D22B2B";
   }
 };

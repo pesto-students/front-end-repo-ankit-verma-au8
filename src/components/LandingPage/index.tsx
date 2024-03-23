@@ -41,7 +41,7 @@ const LandingPage = () => {
               Start tracking your expenses
             </Typography>
             <Stepper orientation="vertical">
-              {APP_INSTRUCTIONS.map((step, idx) => (
+              {APP_INSTRUCTIONS.map((step) => (
                 <Step key={step.label} active={true} sx={{ fontSize: "35px" }}>
                   <StepLabel
                     sx={{

@@ -119,11 +119,7 @@ const Login = () => {
           {!loading ? "Login" : <CircularProgress color="inherit" size={20} />}
         </Button>
         <Box>
-          <Link
-            href="/signup"
-            variant="body2"
-            // onClick={() => navigate("/signup")}
-          >
+          <Link href="/signup" variant="body2">
             Don't have an account? Sign Up
           </Link>
         </Box>

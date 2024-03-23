@@ -1,23 +1,23 @@
 import RootLayout from "@/components/RootLayout";
 import ProtectedRoutes from "@/components/ProtectedRoutes";
-import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
+import Expenses from "@/pages/Expenses";
 import Budget from "@/pages/Budget";
+import LandingPage from "@/components/LandingPage";
+import { Navigate } from "react-router";
 
 const routes = [
   {
     path: "/",
-    element: <Home />,
+    element: <Navigate to="/login" />,
   },
   {
     path: "login",
-    element: <Login />,
+    element: <LandingPage />,
   },
   {
     path: "signup",
-    element: <Signup />,
+    element: <LandingPage />,
   },
   {
     element: <ProtectedRoutes />,
@@ -30,12 +30,15 @@ const routes = [
             element: <Dashboard />,
           },
           {
-            path: "budget",
+            path: "expenses",
+            element: <Expenses />,
+          },
+          {
+            path: "budgets",
             element: <Budget />,
           },
         ],
       },
-
       {
         path: "*",
         element: <>404</>,

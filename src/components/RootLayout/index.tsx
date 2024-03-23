@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { Container, useMediaQuery } from "@mui/material";
+import { Container } from "@mui/material";
 import Navbar from "@/components/RootLayout/NavBar";
 import SideNav from "../SideNav";
 import MainSection from "../MainSection";
 import { Outlet } from "react-router-dom";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 const RootLayout = () => {
-  const [isSideNavOpen, setSideNavOpen] = useState(true);
+  const { isMobile } = useIsMobile();
+  const [isSideNavOpen, setSideNavOpen] = useState(!isMobile);
 
   const toggleDrawer = () => {
     setSideNavOpen((oldState) => !oldState);
   };
-  const small = useMediaQuery("(max-width:650px)");
-  const containerPadding = small ? "15px" : "50px";
 
   return (
     <div style={{ height: "100%", display: "flex" }}>
@@ -24,11 +24,11 @@ const RootLayout = () => {
           maxWidth={false}
           sx={{
             backgroundColor: "background.main",
-            padding: `10px ${containerPadding}`,
+            padding: "10px 10px",
             border: "1px solid red",
             display: "grid",
             alignItems: "start",
-            height: "100%",
+            height: isMobile ? "100%" : "100vmax",
           }}
         >
           <Outlet />

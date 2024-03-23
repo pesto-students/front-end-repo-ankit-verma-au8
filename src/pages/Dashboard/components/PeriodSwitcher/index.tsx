@@ -1,13 +1,7 @@
-import {
-  Button,
-  ButtonGroup,
-  MenuItem,
-  styled,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Button, ButtonGroup, MenuItem, styled } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRef, useState } from "react";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 interface ILargeScreen {
   periodList: string[];
@@ -67,8 +61,7 @@ const PeriodSwitcher = () => {
   const periods = useRef(["Daily", "Weekly", "Monthly"]);
   const [period, setPeriod] = useState(periods.current[0]);
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { isMobile } = useIsMobile();
 
   return isMobile ? (
     <MobileComponent

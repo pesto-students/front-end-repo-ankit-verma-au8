@@ -30,6 +30,29 @@ export const truncateMessage = (text: string, maxLength = 30) => {
 };
 
 /**
+ * Returns date within current month with a given date
+ *
+ * @param {number} day The date to be included in the generated full date
+ * @param {boolean} formatInString Flag to check if return value needs to be formatted
+ * in string or Date
+ * @returns {string | Date} The final date
+ */
+export const getDate = (
+  day: number = 1,
+  formatInString: boolean = false,
+  getLast: boolean = false
+) => {
+  let tempDate = new Date();
+  let newDate;
+  if (getLast) {
+    newDate = new Date(tempDate.getFullYear(), tempDate.getMonth() + 1, 0);
+  } else {
+    newDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), day);
+  }
+  return formatInString ? newDate.toLocaleDateString("en-GB") : newDate;
+};
+
+/**
  * Returns a cookie's value
  *
  * @param {string} key The cookie's name

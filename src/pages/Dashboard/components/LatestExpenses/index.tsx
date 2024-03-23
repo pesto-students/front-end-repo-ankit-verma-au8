@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 // import { styled } from "@mui/material/styles";
-import ExpenseList from "../ExpenseList";
+import ExpenseList from "@/components/ExpenseList";
 import Card from "@/components/Card";
 import { useRef } from "react";
 
@@ -20,8 +20,10 @@ const LatestExpenses = () => {
       date: "31/1/24",
     },
     {
-      category: "Utility",
-      message: "Spent 2000 on floor repair",
+      category:
+        "UtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtilityUtility",
+      message:
+        "Spent 2000 on floor repairSpent 2000 on floor repairSpent 2000 on floor repairSpent 2000 on floor repair",
       expense: 2000,
       date: "29/1/24",
     },

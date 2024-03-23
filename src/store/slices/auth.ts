@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { LoginUserDetails } from "@/types";
-import { loginUser } from "@/api";
+import { loginUser, logoutUser } from "@/api";
 import { RootState } from "@/store";
 import { setCookie, getCookie } from "@/utils";
 
@@ -41,6 +41,17 @@ const login = createAsyncThunk(
   }
 );
 
+const logout = createAsyncThunk("auth/logoutUser", async () => {
+  try {
+    const data = await logoutUser();
+    return data;
+  } catch (err: any) {
+    if (!err.response) {
+      throw err;
+    }
+  }
+});
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -73,11 +84,30 @@ const authSlice = createSlice({
       state.error = action.payload;
       state.success = false;
     });
+
+    builder.addCase(logout.pending, (state) => {
+      state.loading = true;
+      state.error = undefined;
+      state.success = false;
+    });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.authToken = initialState.authToken;
+      state.userId = initialState.userId;
+
+      state.loading = false;
+      state.error = undefined;
+      state.success = true;
+    });
+    builder.addCase(logout.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.success = false;
+    });
   },
 });
 
 export const { actions: authActions } = authSlice;
-export { login as loginUser };
+export { login as loginUser, logout as logoutUser };
 
 export const isUserLoggedIn = (state: RootState) => {
   let cookieAuthToken = getCookie("auth");

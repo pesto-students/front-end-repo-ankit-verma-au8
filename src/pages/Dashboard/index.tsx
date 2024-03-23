@@ -1,64 +1,57 @@
-import { Box, Grid, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Grid, Box, Typography, CircularProgress } from "@mui/material";
 import ExpenseCategories from "./components/ExpenseCategories";
 import SpendingTrends from "./components/SpendingTrends";
 import LatestExpenses from "./components/LatestExpenses";
+import TopExpenses from "./components/TopExpenses";
+import StatusCard from "@/components/StatusCard";
 import Card from "@/components/Card";
-
-const GridBox = styled(Box)(({ theme }) => ({
-  // backgroundColor: "bisque",
-  ...theme.typography.body2,
-  // padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import useTotalExpenseData from "@/hooks/dashboard/userTotalExpenseData";
 
 const Dashboard = () => {
+  const { data, loading, error } = useTotalExpenseData();
   return (
     <>
       <Grid container spacing={5}>
         {/* Total Expense Box */}
         <Grid item xs={12} sm={4}>
-          <Typography color="text.main" variant="h5" sx={{ mb: 1 }}>
+          <Typography color="text.main" variant="h4" sx={{ mb: 1 }}>
             Total Expenses
           </Typography>
-          <GridBox>
-            <Card sx={{ borderRadius: 2 }}>
-              <Typography color="text.main" variant="body1">
-                Total Expenses(this month)
-                <br /> ₹ 13123423
-              </Typography>
-            </Card>
-          </GridBox>
+          <Card
+            sx={{
+              display: "grid",
+              placeContent: "center",
+              textAlign: "center",
+              height: "180px",
+            }}
+          >
+            {loading && <CircularProgress />}
+            {error && (
+              <StatusCard
+                primary="There was a problem while fetching data"
+                type="error"
+              />
+            )}
+            {!(error || loading) && Object?.keys(data).length !== 0 && (
+              <Box>
+                <Typography color="text.primary" variant="h5" sx={{ mb: 1.5 }}>
+                  Total Expenses (this month)
+                </Typography>
+                <Typography
+                  color="text.primary"
+                  variant="h5"
+                  sx={{ fontWeight: 800 }}
+                >
+                  ₹ {data?.totalAmount}
+                </Typography>
+              </Box>
+            )}
+          </Card>
         </Grid>
 
         {/* Top Expenses Box */}
         <Grid item xs={12} sm={8}>
-          <Typography color="text.main" variant="h5" sx={{ mb: 1 }}>
-            Top Expenses of this month
-          </Typography>
-          <Grid container rowSpacing={{ xs: 2, sm: 0 }} columnSpacing={5}>
-            <Grid item xs={12} sm={6}>
-              <GridBox>
-                <Card>
-                  <Typography color="text.main" variant="body1">
-                    16/2/24 <br />
-                    Entertainment ₹13123423
-                  </Typography>
-                </Card>
-              </GridBox>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <GridBox>
-                <Card>
-                  <Typography color="text.main" variant="body1">
-                    16/2/24 <br />
-                    Shopping ₹ 13123423
-                  </Typography>
-                </Card>
-              </GridBox>
-            </Grid>
-          </Grid>
+          <TopExpenses />
         </Grid>
 
         {/* Charts Box */}

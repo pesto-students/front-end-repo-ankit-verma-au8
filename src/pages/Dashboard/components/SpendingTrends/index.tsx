@@ -1,16 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import BarChart from "@/components/BarChart";
 import PeriodSwitcher from "../PeriodSwitcher";
-// import useTrendsData from "@/hooks/dashboard/useTrendsData";
+import useTrendsData from "@/hooks/dashboard/useTrendsData";
 import Card from "@/components/Card";
-
-// const Container = styled(Box)(({ theme }) => ({
-//   // backgroundColor: "bisque",
-//   ...theme.typography.body2,
-//   padding: `${theme.spacing(2)}}`,
-//   color: theme.palette.text.secondary,
-// }));
+import StatusCard from "@/components/StatusCard";
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -19,9 +13,21 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
+const ChartContainer = styled(Box)(() => ({
+  // display: "flex",
+  // alignItems: "center",
+  // justifyContent: "center",
+  // height: "90%",
+  // width: "100%",
+}));
+
 const SpendingTrends = () => {
-  // const { data, loading, error, success, fetchData } = useTrendsData("period");
-  // console.log("IN bar COMPONENT", data);
+  const { data, loading, error, fetchData } = useTrendsData();
+  console.log("IN bar COMPONENT", data);
+
+  const doesDataExist = () => {
+    return data?.some((item) => item.data.length > 0);
+  };
 
   return (
     <Card>
@@ -29,9 +35,30 @@ const SpendingTrends = () => {
         <Typography variant="h5" display="inline">
           Spending Trends
         </Typography>
-        <PeriodSwitcher />
+        <PeriodSwitcher updateChartData={fetchData} />
       </HeaderContainer>
-      <BarChart />
+      <ChartContainer>
+        {loading && <CircularProgress />}
+        {error && (
+          <Card sx={{ textAlign: "center" }}>
+            <StatusCard
+              primary="There was a problem while fetching data"
+              type="error"
+              primaryStyle={{ textAlign: "center" }}
+              secondaryStyle={{ height: "80px" }}
+            />
+          </Card>
+        )}
+        {!(error || loading) && !doesDataExist() && (
+          <StatusCard
+            primary="No data available for the selected period"
+            type="info"
+            primaryStyle={{ textAlign: "center" }}
+            secondaryStyle={{ height: "80px" }}
+          />
+        )}
+        {!(error || loading) && doesDataExist() && <BarChart data={data} />}
+      </ChartContainer>
     </Card>
   );
 };

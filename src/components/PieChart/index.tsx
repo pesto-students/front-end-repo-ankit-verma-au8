@@ -17,7 +17,6 @@ const ChartContainer = styled("div")(({ theme }) => ({
   maxWidth: "99%",
   display: "flex",
   justifyContent: "center",
-  border: "1px solid red",
   [`${theme.breakpoints.up("md")}`]: {
     height: "50vh",
     maxWidth: "100%",
@@ -36,7 +35,7 @@ const PieChart = ({ categories, chartData }: PieChartProps) => {
         data: chartData,
         backgroundColor: colors,
         borderWidth: 0,
-        hoverOffset: 30,
+        hoverOffset: 80,
       },
     ],
   };
@@ -49,7 +48,7 @@ const PieChart = ({ categories, chartData }: PieChartProps) => {
         display: true,
         color: "white",
         font: {
-          size: isMobile ? 12 : 15,
+          size: isMobile ? 10 : 15,
         },
         formatter: (value: any, ctx: any) => {
           const datapoints = ctx.chart.data.datasets[0].data;
@@ -65,7 +64,7 @@ const PieChart = ({ categories, chartData }: PieChartProps) => {
         position: "right" as const,
         labels: {
           boxWidth: 15,
-          padding: 10,
+          padding: isMobile ? 5 : 10,
         },
       },
     },

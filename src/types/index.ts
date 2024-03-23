@@ -11,3 +11,21 @@ export interface LoginUserDetails {
   role: string;
   staySignedIn: boolean;
 }
+
+export interface Budget {
+  amount: string;
+  categoryId: string;
+  categoryName: string;
+  createdAt: string;
+  endDate: string;
+  id: string;
+  reminders: boolean;
+  startDate: string;
+  totalExpense: string;
+  userId: number;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+}

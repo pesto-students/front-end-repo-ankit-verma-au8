@@ -1,37 +1,54 @@
-import { Button, ButtonGroup, MenuItem, styled } from "@mui/material";
+import {
+  MenuItem,
+  styled,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useRef, useState } from "react";
 import useIsMobile from "@/hooks/common/useIsMobile";
 
 interface ILargeScreen {
   periodList: string[];
-}
-
-interface ISmallScreen extends ILargeScreen {
   period: string;
-  handleChange: (event: SelectChangeEvent) => void;
+  handleChange: (_: any, period: string) => void;
 }
 
-const StyledButton = styled(Button)(({ value }) => ({
+interface PeriodSwitcherProps {
+  updateChartData: (month: string) => void;
+}
+
+interface ISmallScreen {
+  period: string;
+  periodList: string[];
+  handleChange: (event: SelectChangeEvent, period: string) => void;
+}
+
+const StyledButton = styled(ToggleButton)(() => ({
   textTransform: "none",
-  ...(!(value === 2) && { borderRight: 0 }),
-  ...(!(value === 0) && { borderLeft: 0 }),
   "&:hover": {
-    ...(!(value === 2) && { borderRight: 0 }),
-    ...(!(value === 0) && { borderLeft: 0 }),
     textDecoration: "underline",
   },
 }));
 
-const LargeScreenComponent = ({ periodList }: ILargeScreen) => {
+const LargeScreenComponent = ({
+  period,
+  periodList,
+  handleChange,
+}: ILargeScreen) => {
   return (
-    <ButtonGroup variant="outlined" size="small">
+    <ToggleButtonGroup
+      color="primary"
+      value={period}
+      exclusive
+      onChange={handleChange}
+    >
       {periodList.map((period: string, idx: number) => (
-        <StyledButton value={idx} key={idx} size="small">
+        <StyledButton color="primary" value={period} key={idx} size="small">
           {period}
         </StyledButton>
       ))}
-    </ButtonGroup>
+    </ToggleButtonGroup>
   );
 };
 
@@ -45,7 +62,7 @@ const MobileComponent = ({
       labelId="demo-simple-select-label"
       id="demo-simple-select"
       value={period}
-      onChange={handleChange}
+      onChange={(e) => handleChange(e, e.target.value)}
       size="small"
     >
       {periodList.map((value, idx) => (
@@ -57,20 +74,30 @@ const MobileComponent = ({
   );
 };
 
-const PeriodSwitcher = () => {
+const PeriodSwitcher = ({ updateChartData }: PeriodSwitcherProps) => {
   const periods = useRef(["Daily", "Weekly", "Monthly"]);
   const [period, setPeriod] = useState(periods.current[0]);
 
   const { isMobile } = useIsMobile();
 
+  const handlePeriodChange = (_: any, newPeriod: string) => {
+    console.log;
+    updateChartData(newPeriod.toLowerCase());
+    setPeriod(newPeriod);
+  };
+
   return isMobile ? (
     <MobileComponent
       periodList={periods.current}
       period={period}
-      handleChange={(e: SelectChangeEvent) => setPeriod(e.target.value)}
+      handleChange={handlePeriodChange}
     />
   ) : (
-    <LargeScreenComponent periodList={periods.current} />
+    <LargeScreenComponent
+      periodList={periods.current}
+      period={period}
+      handleChange={handlePeriodChange}
+    />
   );
 };
 

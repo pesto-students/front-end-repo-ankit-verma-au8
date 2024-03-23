@@ -246,7 +246,9 @@ const Expenses = () => {
                   color="primary"
                   variant="outlined"
                   shape="rounded"
-                  count={50}
+                  count={Math.ceil(
+                    expenseData?.totalCount / expenseData?.data.length
+                  )}
                   page={currPagPage}
                   onChange={(_, newPage) => handlePaginationPageChange(newPage)}
                   siblingCount={isMobile ? 0 : 1}

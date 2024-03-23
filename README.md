@@ -1,30 +1,57 @@
-# React + TypeScript + Vite
+![LOGO](./src/assets/app-logo.png)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> WhatSpend is a WhatsApp and ChatGPT powered expense tracking app that uses AI to automatically categorize spending, providing users with valuable insights and budget control. Send a simple message and get your spending categorized and tracked.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
 
-## Expanding the ESLint configuration
+- [Demo](#demo)
+- [Installation](#installation)
+- [Technology Stack](#technology-stack)
+- [Author](#author)
+- [License](#license)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Configure the top-level `parserOptions` property like this:
+# Demo
+[Live Demo](https://whatspend.netlify.app)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Installation
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/pesto-students/front-end-repo-ankit-verma-au8.git
+
+# Go into the repository
+$ cd front-end-repo-ankit-verma-au8
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm run dev
+
+# Build the app
+$ npm run build
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Technology Stack
+This aplication uses the following open source packages:
+- [React](https://react.dev/)
+- [Material UI](https://mui.com/material-ui/)
+- [Axios](https://axios-http.com/)
+- [ChartJS](https://www.chartjs.org/)
+- [Formik](https://formik.org/)
+- [react-chartjs-2](https://react-chartjs-2.js.org/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [React Router](https://reactrouter.com/)
+
+## Author
+
+* [Sourav Mehra](https://github.com/mehra-sourav)
+* [Ankit Verma](https://github.com/ankit-verma-au8)
+ 
+## License
+
+This software is licensed under the [MIT](https://github.com/nhn/tui.editor/blob/master/LICENSE).

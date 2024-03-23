@@ -8,7 +8,7 @@ const TopExpenses = () => {
   const { data, loading, error } = useTopExpensesData();
   return (
     <>
-      <Typography color="text.main" variant="h4" sx={{ mb: 1 }}>
+      <Typography color="text.main" variant="h5" sx={{ mb: 1 }}>
         Top Expenses of this month
       </Typography>
       <Grid container rowSpacing={{ xs: 2, sm: 0 }} columnSpacing={5}>

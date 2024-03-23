@@ -1,44 +1,20 @@
-import { styled } from "@mui/material/styles";
 import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { isUserLoggedIn } from "@/store";
+import { useLocation } from "react-router-dom";
 import useIsMobile from "@/hooks/common/useIsMobile";
+import { getCapitalizedText } from "@/utils";
 
 interface Props {
   drawerOpen: boolean;
   toggleDrawer: () => void;
 }
 
-const NavbarButton = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.common.black,
-  "&:hover": {
-    color: theme.palette.common.black,
-  },
-}));
-
 const Navbar = ({ toggleDrawer }: Props) => {
-  const navigate = useNavigate();
-  const isLoggedIn = useSelector(isUserLoggedIn);
+  const { pathname } = useLocation();
   const { isMobile } = useIsMobile();
 
-  const handleProfileMenuOpen = (): void => {
-    // setAnchorEl(event.currentTarget);
-    if (!isLoggedIn) {
-      navigate("/login");
-    }
-  };
-
-  // const handleMobileMenuClose = () => {
-  //   setMobileMoreAnchorEl(null);
-  // };
-
-  const menuId = "primary-search-account-menu";
-
   return (
-    <Box sx={{ flexGrow: 1, borderBottom: "1px solid black" }}>
+    <Box sx={{ flexGrow: 1, borderBottom: "2px solid lightgray", mb: 1 }}>
       <AppBar position="static" elevation={0} style={{ background: "white" }}>
         <Toolbar>
           {isMobile && (
@@ -56,34 +32,10 @@ const Navbar = ({ toggleDrawer }: Props) => {
             </Box>
           )}
 
-          <Box sx={{ flexGrow: 1 }} />
-
-          <Box sx={{ display: { xs: "flex" } }}>
-            <Typography component="h3" color="black">
-              {isLoggedIn ? "Logged In" : "Not logged in"}
-            </Typography>
-          </Box>
-
-          <Box sx={{ flexGrow: 1 }} />
-
-          {/* Header Right Section */}
-          <Box sx={{ display: { xs: "flex" } }}>
-            {/* Profile Icon */}
-            <NavbarButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="primary"
-              sx={{ mr: 0.5 }}
-            >
-              {/* <NavbarLogo src={logoSvg} alt="The Tea Lab" sx={{ mx : "auto", }} /> */}
-              <AccountCircle sx={{ fontSize: "2rem" }} />
-              {/* </RouterLink> */}
-            </NavbarButton>
-          </Box>
+          {/* Page name */}
+          <Typography component="h3" variant="h4" color="black">
+            {getCapitalizedText(pathname.slice(1))}
+          </Typography>
         </Toolbar>
       </AppBar>
     </Box>

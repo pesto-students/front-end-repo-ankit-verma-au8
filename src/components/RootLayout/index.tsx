@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container } from "@mui/material";
+import { Container, useMediaQuery } from "@mui/material";
 import Navbar from "@/components/RootLayout/NavBar";
 import SideNav from "../SideNav";
 import MainSection from "../MainSection";
@@ -11,6 +11,8 @@ const RootLayout = () => {
   const toggleDrawer = () => {
     setSideNavOpen((oldState) => !oldState);
   };
+  const small = useMediaQuery("(max-width:650px)");
+  const containerPadding = small ? "15px" : "50px";
 
   return (
     <div style={{ height: "100%", display: "flex" }}>
@@ -22,7 +24,7 @@ const RootLayout = () => {
           maxWidth={false}
           sx={{
             backgroundColor: "background.main",
-            padding: "10px 50px",
+            padding: `10px ${containerPadding}`,
             border: "1px solid red",
             display: "grid",
             alignItems: "start",

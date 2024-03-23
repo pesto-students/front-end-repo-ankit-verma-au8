@@ -39,29 +39,30 @@ const Budget = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
+        flexDirection: "column",
       }}
     >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          flexGrow: 1,
+          marginBottom: "15px",
+        }}
+      >
+        <Button onClick={handleClickOpen} variant="contained">
+          Add Budget
+        </Button>
+      </Box>
       <BudgetDialog open={open} setOpen={setOpen} />
       <Box
         sx={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-between",
-          maxWidth: "1030px",
+          // maxWidth: "1030px",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            width: "1030px",
-            marginBottom: "15px",
-          }}
-        >
-          <Button onClick={handleClickOpen} variant="contained">
-            Add Budget
-          </Button>
-        </Box>
         {data.length != 0
           ? data.map(
               ({

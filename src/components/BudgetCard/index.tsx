@@ -19,7 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { FC, useState } from "react";
 import { updateBudget } from "@/api/features/budget";
 import BudgetDialog from "../BudgetDialog";
-
+import useMediaQuery from "@mui/material/useMediaQuery";
 interface CustomLinearProgressProps extends LinearProgressProps {
   customcolor?: string;
 }
@@ -90,6 +90,7 @@ const BudgetCard: FC<BudgetCardProps> = ({
 }) => {
   const expensePercentage = (Number(totalExpense) / Number(amount)) * 100;
   const [remindersState, setRemindersState] = useState(reminders);
+  const small = useMediaQuery("(max-width:650px)");
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
   const handleChangeReminder = async () => {
@@ -103,7 +104,7 @@ const BudgetCard: FC<BudgetCardProps> = ({
       setRemindersState((val) => !val);
     }
   };
-
+  const cardWidth = small ? "100%" : "30%";
   const handleClose = () => {
     setErrorMessage("");
   };
@@ -111,8 +112,7 @@ const BudgetCard: FC<BudgetCardProps> = ({
   return (
     <Card
       sx={{
-        maxWidth: "500px",
-        minWidth: "474px",
+        width: cardWidth,
         height: "200px",
         padding: "15px",
         marginBottom: "15px",

@@ -12,37 +12,55 @@ import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import { useLocation } from "react-router-dom";
 import { APP_INSTRUCTIONS } from "@/constants";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 const LandingPage = () => {
   const location = useLocation();
+  const { isMobile } = useIsMobile();
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7}>
+      <Grid item xs={12} md={7}>
         <Box
           sx={{
             backgroundColor: "background.landingPage",
             height: "100%",
+            // width: "100%",
             display: "grid",
             placeItems: "center",
             color: "white",
           }}
         >
-          <Typography component="h1" variant="h3">
-            Steps to join the app
-          </Typography>
           <Box>
+            <Typography
+              component="h1"
+              variant={isMobile ? "h5" : "h3"}
+              sx={{ mb: 2 }}
+            >
+              Start tracking your expenses
+            </Typography>
             <Stepper orientation="vertical">
               {APP_INSTRUCTIONS.map((step, idx) => (
                 <Step key={step.label} active={true} sx={{ fontSize: "35px" }}>
-                  <StepLabel>
-                    <Typography variant="h5" color="white">
+                  <StepLabel
+                    sx={{
+                      "& .Mui-active": {
+                        "& .MuiStepIcon-root": {
+                          color: "#cc9e05",
+                          "& .MuiStepIcon-text": { fontSize: "15px" },
+                        },
+                      },
+                    }}
+                  >
+                    <Typography variant={isMobile ? "h6" : "h5"} color="white">
                       {step.label}
                     </Typography>
                   </StepLabel>
-                  <StepContent>
-                    <Typography>{step.description}</Typography>
-                  </StepContent>
+                  {!isMobile && (
+                    <StepContent>
+                      <Typography>{step.description}</Typography>
+                    </StepContent>
+                  )}
                 </Step>
               ))}
             </Stepper>

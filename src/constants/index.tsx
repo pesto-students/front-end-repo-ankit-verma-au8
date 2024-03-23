@@ -27,7 +27,7 @@ export const APP_INSTRUCTIONS: AppInstructionTypes[] = [
     description: "Sign up for our app with a few quick steps",
   },
   {
-    label: "Get Your Dedicated Number",
+    label: "Get Your Dedicated Bot",
     description:
       "We'll send you a text message with a unique phone number for your expense tracking",
   },

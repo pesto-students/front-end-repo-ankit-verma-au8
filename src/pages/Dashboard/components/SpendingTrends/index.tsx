@@ -23,7 +23,6 @@ const ChartContainer = styled(Box)(() => ({
 
 const SpendingTrends = () => {
   const { data, loading, error, fetchData } = useTrendsData();
-  console.log("IN bar COMPONENT", data);
 
   const doesDataExist = () => {
     return data?.some((item) => item.data.length > 0);

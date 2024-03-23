@@ -137,7 +137,6 @@ const BarChart = ({ data: trendsData }: BarChartProps) => {
       },
     },
   };
-  console.log("DATA in bar", data);
 
   return (
     <ChartContainer>

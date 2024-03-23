@@ -13,7 +13,7 @@ const theme = createTheme({
     background: {
       main: "#FFFFF",
       secondary: "#1C2536",
-      landingPage: "#3361FA",
+      landingPage: "#0085FF",
       sideNav: "#3C3C47",
       sideNavSelected: "#15BC83",
     },

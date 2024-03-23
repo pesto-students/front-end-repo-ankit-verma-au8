@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { loginUser, RootState } from "@/store";
+import useIsMobile from "@/hooks/common/useIsMobile";
 
 type FormValues = {
   phoneNumber: string;
@@ -25,6 +26,7 @@ const Login = () => {
   const { loading, error, success } = useSelector(
     (state: RootState) => state.auth
   );
+  const { isMobile } = useIsMobile();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const {
     register,
@@ -53,7 +55,8 @@ const Login = () => {
   return (
     <Box
       sx={{
-        my: 8,
+        mt: isMobile ? 6 : 8,
+        mb: 8,
         mx: 4,
         display: "flex",
         flexDirection: "column",

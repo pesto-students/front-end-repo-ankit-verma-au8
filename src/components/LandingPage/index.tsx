@@ -13,6 +13,7 @@ import Signup from "@/pages/Signup";
 import { useLocation } from "react-router-dom";
 import { APP_INSTRUCTIONS } from "@/constants";
 import useIsMobile from "@/hooks/common/useIsMobile";
+import AppLogo from "@/components/AppLogo";
 
 const LandingPage = () => {
   const location = useLocation();
@@ -68,16 +69,10 @@ const LandingPage = () => {
         </Box>
       </Grid>
 
-      <Grid
-        item
-        xs={12}
-        sm={8}
-        md={5}
-        // sx={{ display: "flex", alignItems: "center" }}
-      >
-        {/* <Logo /> */}
-        {/* <img src={ReactLogo} alt="React Logo" /> */}
-        {/* <img src={AppLogo} alt="logo" width="10%" /> */}
+      <Grid item xs={12} sm={8} md={5}>
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          <AppLogo height="69" width="206" />
+        </Box>
         {location.pathname.replace("/", "") === "login" ? (
           <Login />
         ) : (

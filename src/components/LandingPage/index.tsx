@@ -32,10 +32,10 @@ const LandingPage = () => {
             color: "white",
           }}
         >
-          <Box>
+          <Box sx={{ my: 4 }}>
             <Typography
               component="h1"
-              variant={isMobile ? "h5" : "h3"}
+              variant={isMobile ? "h6" : "h3"}
               sx={{ mb: 2 }}
             >
               Start tracking your expenses
@@ -53,7 +53,10 @@ const LandingPage = () => {
                       },
                     }}
                   >
-                    <Typography variant={isMobile ? "h6" : "h5"} color="white">
+                    <Typography
+                      variant={isMobile ? "subtitle2" : "h5"}
+                      color="white"
+                    >
                       {step.label}
                     </Typography>
                   </StepLabel>

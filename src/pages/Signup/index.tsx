@@ -63,7 +63,7 @@ const SignupForm = () => {
     <Box
       sx={{
         mt: isMobile ? 6 : 8,
-        // mb: 2,
+        mb: 8,
         mx: 4,
         display: "flex",
         flexDirection: "column",

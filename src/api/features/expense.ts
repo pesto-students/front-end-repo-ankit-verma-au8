@@ -2,11 +2,11 @@ import axiosInstance from "@/api/axiosInstance";
 
 const USER_ENDPOINT = "/user/expense";
 
-export const getExpenseTrends = async (page: number, limit: number) => {
+export const getExpenseTrends = async (interval: string) => {
   //   const queryString = buildQueryString({page, limit});
 
   const { data } = await axiosInstance.get(`${USER_ENDPOINT}/trend`, {
-    params: { limit, page },
+    params: { interval },
   });
   return data;
 };

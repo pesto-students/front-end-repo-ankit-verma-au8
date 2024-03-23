@@ -14,4 +14,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Chart: Story = {};
+export const Chart: Story = {
+  args: {
+    data: [
+      {
+        startDate: "2024-03-23",
+        endDate: "2024-03-23",
+        data: [],
+      },
+    ],
+  },
+};

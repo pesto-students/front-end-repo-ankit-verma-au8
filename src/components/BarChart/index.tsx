@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { styled } from "@mui/material/styles";
+import dayjs from "dayjs";
 
 ChartJS.register(
   CategoryScale,
@@ -29,24 +30,43 @@ const ChartContainer = styled("div")(({ theme }) => ({
   },
 }));
 
-const BarChart = () => {
-  const categories = [
-    "Utilties",
-    "Entertainment",
-    "Food",
-    "Hospital",
-    "Education",
-  ];
-  const DATA_LENGTH = 5;
-  const BIN_LENGTH = 5;
-  const DATA = Array.from({ length: DATA_LENGTH }, (_, i) => {
-    let d = Array.from({ length: BIN_LENGTH }, () => Math.random() * 10001);
-    return {
-      label: "Dataset " + i,
-      data: d,
+interface BarChartProps {
+  data: {
+    data: [];
+    startDate: string;
+    endDate: string;
+  }[];
+}
+
+const BarChart = ({ data: trendsData }: BarChartProps) => {
+  const categoryWiseData = new Map();
+
+  trendsData?.forEach((data) => {
+    // console.log({ startDate: data.startDate, idx: i });
+    if (data?.data?.length === 0) return;
+
+    data?.data?.forEach(({ categoryName, totalExpense }) => {
+      if (categoryWiseData.has(categoryName)) {
+        let oldItems = categoryWiseData.get(categoryName);
+        // console.log("olditems", oldItems);
+        categoryWiseData.set(categoryName, [...oldItems, Number(totalExpense)]);
+      } else {
+        categoryWiseData.set(categoryName, []);
+      }
+    });
+  });
+
+  // console.log("categoryWiseData:", categoryWiseData);
+  const newLabelData: object[] = [];
+
+  categoryWiseData.forEach((values, categoryName) => {
+    // console.log(values, categoryName);
+    newLabelData.push({
+      label: categoryName,
+      data: values,
       clip: 5,
       backgroundColor: getRandomColor(),
-    };
+    });
   });
 
   const cat1Data = [6, 64, 673, 35, 54];
@@ -54,8 +74,16 @@ const BarChart = () => {
   const cat3Data = [32, 76, 245, 9867, 543];
   const allData = [...cat1Data, ...cat2Data, ...cat3Data];
   const data = {
-    labels: categories,
-    datasets: DATA,
+    labels: trendsData?.map(({ startDate, endDate }) => {
+      // console.log({ raw: startDate, processed: dayjs(startDate) });
+      if (startDate === endDate) {
+        return dayjs(startDate).format("DD/MM/YYYY");
+      }
+      return `${dayjs(startDate).format("DD/MM/YYYY")} - ${dayjs(
+        endDate
+      ).format("DD/MM/YYYY")}`;
+    }),
+    datasets: newLabelData,
   };
 
   const options = {
@@ -109,10 +137,14 @@ const BarChart = () => {
       },
     },
   };
+  console.log("DATA in bar", data);
 
   return (
     <ChartContainer>
-      <Bar options={options} data={data} />
+      <Bar
+        options={options}
+        data={{ datasets: data.datasets as [], labels: data.labels }}
+      />
     </ChartContainer>
   );
 };

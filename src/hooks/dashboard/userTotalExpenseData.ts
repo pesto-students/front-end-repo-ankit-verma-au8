@@ -5,11 +5,13 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import { getDate } from "@/utils";
 
 interface HookReturnData {
-  data: {
-    month: string;
-    totalAmount: string | number;
-    year: string;
-  };
+  data:
+    | {
+        month: string;
+        totalAmount: string | number;
+        year: string;
+      }
+    | any;
   loading: boolean;
   error: boolean;
   success: boolean;

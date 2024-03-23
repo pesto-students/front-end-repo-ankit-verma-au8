@@ -8,7 +8,11 @@ import {
 
 interface IExpenseState {
   trends: {
-    data: null | object[] | [];
+    data: {
+      data: [];
+      startDate: string;
+      endDate: string;
+    }[];
     error: any;
     success: boolean;
     loading: boolean;
@@ -35,7 +39,11 @@ interface IExpenseState {
     loading: boolean;
   };
   total: {
-    data: null | object[] | [];
+    data: {
+      month: string;
+      year: string;
+      totalAmount: number;
+    } | null;
     error: any;
     success: boolean;
     loading: boolean;
@@ -45,7 +53,7 @@ interface IExpenseState {
 
 const initialState: IExpenseState = {
   trends: {
-    data: null,
+    data: [],
     error: false,
     success: false,
     loading: false,
@@ -72,12 +80,9 @@ const initialState: IExpenseState = {
 
 const fetchTrendsData = createAsyncThunk(
   "expense/fetchTrendsData",
-  async (
-    { limit, page }: { limit: number; page: number },
-    { rejectWithValue }
-  ) => {
+  async ({ interval }: { interval: string }, { rejectWithValue }) => {
     try {
-      const data = await getExpenseTrends(page, limit);
+      const data = await getExpenseTrends(interval);
       return data;
     } catch (err: any) {
       if (!err.response) {
@@ -179,9 +184,8 @@ const expenseSlice = createSlice({
         state.trends.error = false;
         state.trends.success = false;
       })
-      .addCase(fetchTrendsData.fulfilled, (state) => {
-        // console.log("TRENDFETCHED", action);
-        // state.trends.data = action.payload;
+      .addCase(fetchTrendsData.fulfilled, (state, action) => {
+        state.trends.data = action.payload;
 
         state.trends.loading = false;
         state.trends.error = false;

@@ -1,8 +1,7 @@
 import { Typography } from "@mui/material";
-// import { styled } from "@mui/material/styles";
 import ExpenseList from "@/components/ExpenseList";
 import Card from "@/components/Card";
-import InfiniteScroll from "react-infinite-scroller";
+// import InfiniteScroll from "react-infinite-scroller";
 import useExpenseListData from "@/hooks/common/useExpenseListData";
 
 // const Container = styled(Box)(({ theme }) => ({
@@ -13,11 +12,11 @@ import useExpenseListData from "@/hooks/common/useExpenseListData";
 // }));
 
 const LatestExpenses = () => {
-  const { data, loading, fetchData } = useExpenseListData();
+  const { data } = useExpenseListData();
 
-  const loadMoreData = (page: number) => {
-    fetchData(page);
-  };
+  // const loadMoreData = (page: number) => {
+  //   fetchData(page);
+  // };
 
   return (
     <Card>

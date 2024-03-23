@@ -1,9 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import BarChart from "@/components/BarChart";
 import PeriodSwitcher from "../PeriodSwitcher";
-// import useTrendsData from "@/hooks/dashboard/useTrendsData";
+import useTrendsData from "@/hooks/dashboard/useTrendsData";
 import Card from "@/components/Card";
+import StatusCard from "@/components/StatusCard";
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -13,8 +14,8 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
 }));
 
 const SpendingTrends = () => {
-  // const { data, loading, error, success, fetchData } = useTrendsData("period");
-  // console.log("IN bar COMPONENT", data);
+  const { data, loading, error, fetchData } = useTrendsData();
+  console.log("IN bar COMPONENT", data);
 
   return (
     <Card>
@@ -22,9 +23,22 @@ const SpendingTrends = () => {
         <Typography variant="h5" display="inline">
           Spending Trends
         </Typography>
-        <PeriodSwitcher />
+        <PeriodSwitcher updateChartData={fetchData} />
       </HeaderContainer>
-      <BarChart />
+      {loading && <CircularProgress />}
+      {error && (
+        <StatusCard
+          primary="There was a problem while fetching data"
+          type="error"
+        />
+      )}
+      {!(error || loading) && data?.length === 0 && (
+        <StatusCard
+          primary="No data available for the selected period"
+          type="info"
+        />
+      )}
+      <BarChart data={data} />
     </Card>
   );
 };

@@ -227,7 +227,7 @@ const Expenses = () => {
               />
               <SummaryBox
                 isMobile={isMobile}
-                values={["Total", 23000000000]}
+                values={["Total", expenseData?.totalExpense]}
                 isCurrency={true}
               />
             </Box>

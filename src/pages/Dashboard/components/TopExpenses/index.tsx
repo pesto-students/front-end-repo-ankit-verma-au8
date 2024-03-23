@@ -25,6 +25,8 @@ const TopExpenses = () => {
               <StatusCard
                 primary="There was a problem while fetching data"
                 type="error"
+                primaryStyle={{ textAlign: "center" }}
+                secondaryStyle={{ height: "105px" }}
               />
             </Card>
           </Grid>
@@ -32,7 +34,12 @@ const TopExpenses = () => {
         {!(error || loading) && data?.length === 0 && (
           <Grid item xs={12} sm={6}>
             <Card sx={{ textAlign: "center" }}>
-              <StatusCard primary="No budgets available" type="info" />
+              <StatusCard
+                primary="No budgets available"
+                type="info"
+                primaryStyle={{ textAlign: "center" }}
+                secondaryStyle={{ height: "105px" }}
+              />
             </Card>
           </Grid>
         )}
